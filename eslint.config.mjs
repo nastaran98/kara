@@ -6,6 +6,26 @@ const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
   // Override default ignores of eslint-config-next.
+  {
+    name: "domain-boundaries",
+
+    files: ["src/domain/**/*.{ts,tsx}"],
+
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["react", "react/*"],
+              message:
+                "domain must not import React. Keep domain code framework-independent.",
+            },
+          ],
+        },
+      ],
+    },
+  },
   globalIgnores([
     // Default ignores of eslint-config-next:
     ".next/**",
