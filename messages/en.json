@@ -1,0 +1,16 @@
+{
+  "Nav": {
+    "home": "Home",
+    "about": "About",
+    "settings": "Settings",
+    "login": "Log in",
+    "logout": "Log out"
+  },
+  "Home": {
+    "title": "Welcome",
+    "subtitle": "Your personal workspace",
+    "today": "Today",
+    "language": "Language",
+    "continue": "Continue"
+  }
+}
