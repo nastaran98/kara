@@ -1,8 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
@@ -10,4 +8,405 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+}
+
+// ======================================================
+// ENUMS
+// ======================================================
+
+enum PracticeType {
+  ACT
+  SIT
+  NOTICE
+  KEEP
+}
+
+enum JourneyKind {
+  source
+  theme
+  pool
+}
+
+enum UserJourneyStatus {
+  active
+  completed
+  abandoned
+  queued
+}
+
+enum PracticeLogStatus {
+  done
+  skipped
+  waiting
+  closed
+}
+
+enum CommitmentStatus {
+  active
+  graduated
+  retired
+}
+
+enum QuoteSourceType {
+  book
+  fiction
+  film
+  podcast
+  talk
+  person
+  unknown
+}
+
+enum CommitmentPolarity {
+  do
+  avoid
+}
+
+// ======================================================
+// USER
+// ======================================================
+
+model User {
+  id                  String  @id @default(cuid())
+  email               String  @unique
+  name                String?
+  locale              String  @default("en")
+  timezone            String  @default("UTC")
+  reminderTime        String?
+  eveningReminderTime String?
+
+  authoredPractices Practice[]
+  userJourneys      UserJourney[]
+  practiceLogs      PracticeLog[]
+  entries           Entry[]
+  sitSessions       SitSession[]
+  resurfacings      Resurfacing[]
+  noticeDays        NoticeDay[]
+  commitments       Commitment[]
+  quotes            Quote[]
+  quoteCards        QuoteCard[]
+  dayActivities     DayActivity[]
+}
+
+// ======================================================
+// JOURNEY
+// ======================================================
+
+model Journey {
+  id               String      @id @default(cuid())
+  slug             String      @unique
+  kind             JourneyKind
+  title            String
+  outcomeStatement String?
+  totalDays        Int
+  dailyMinutes     Int
+  themeTags        String[]    @default([])
+  sourceTitle      String?
+  sourceAuthor     String?
+  locale           String
+
+  phases       Phase[]
+  practices    Practice[]
+  userJourneys UserJourney[]
+}
+
+// ======================================================
+// PHASE
+// ======================================================
+
+model Phase {
+  id         String @id @default(cuid())
+  journeyId  String
+  index      Int
+  name       String
+  subtitle   String
+  startIndex Int
+  endIndex   Int
+
+  journey   Journey    @relation(fields: [journeyId], references: [id], onDelete: Cascade)
+  practices Practice[]
+
+  @@index([journeyId])
+}
+
+// ======================================================
+// PRACTICE
+// ======================================================
+
+model Practice {
+  id           String  @id @default(cuid())
+  journeyId    String?
+  phaseId      String?
+  authorUserId String?
+  index        Int?
+
+  type      PracticeType
+  title     String
+  body      String
+  themeTags String[]     @default([])
+  depth     Int?
+
+  // Attribution.
+  // Required for theme journeys at the application/content-validation layer.
+  sourceType   String?
+  sourceTitle  String?
+  sourceAuthor String?
+
+  // ACT
+  minutes       Int?
+  requiresOther Boolean?
+
+  // SIT
+  suggestedMinutes Int?
+  revisitAfterDays Int?
+
+  // NOTICE
+  noticeFor  String?
+  tallyLabel String?
+
+  // KEEP
+  cue        String?
+  behavior   String?
+  polarity   CommitmentPolarity?
+  targetDays Int?
+
+  journey    Journey? @relation(fields: [journeyId], references: [id])
+  phase      Phase?   @relation(fields: [phaseId], references: [id])
+  authorUser User?    @relation(fields: [authorUserId], references: [id], onDelete: Cascade)
+
+  practiceLogs PracticeLog[]
+  sitSessions  SitSession[]
+  noticeDays   NoticeDay[]
+  commitments  Commitment[]
+}
+
+// ======================================================
+// USER JOURNEY
+// ======================================================
+
+model UserJourney {
+  id           String            @id @default(cuid())
+  userId       String
+  journeyId    String
+  status       UserJourneyStatus
+  startedAt    DateTime          @default(now())
+  completedAt  DateTime?
+  currentIndex Int               @default(0)
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  journey Journey @relation(fields: [journeyId], references: [id])
+
+  practiceLogs PracticeLog[]
+  commitments  Commitment[]
+
+  @@index([userId])
+  @@index([journeyId])
+}
+
+// ======================================================
+// PRACTICE LOG
+// ======================================================
+
+model PracticeLog {
+  id            String            @id @default(cuid())
+  userId        String
+  userJourneyId String?
+  practiceId    String
+  status        PracticeLogStatus
+  completedAt   DateTime?
+
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userJourney UserJourney? @relation(fields: [userJourneyId], references: [id])
+  practice    Practice     @relation(fields: [practiceId], references: [id])
+
+  entries Entry[]
+
+  @@index([userId, practiceId])
+}
+
+// ======================================================
+// ENTRY
+// ======================================================
+
+model Entry {
+  id             String   @id @default(cuid())
+  userId         String
+  practiceLogId  String?
+  question       String
+  body           String
+  elapsedSeconds Int      @default(0)
+  themeTags      String[] @default([])
+  parentEntryId  String?
+  createdAt      DateTime @default(now())
+
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  practiceLog PracticeLog? @relation(fields: [practiceLogId], references: [id])
+
+  // Self-relation for journal threads.
+  //
+  // Original entry:
+  // parentEntryId = null
+  //
+  // Later/resurfaced entry:
+  // parentEntryId = originalEntry.id
+  parentEntry  Entry?  @relation("EntryThread", fields: [parentEntryId], references: [id], onDelete: Cascade)
+  childEntries Entry[] @relation("EntryThread")
+
+  resurfacings Resurfacing[]
+  noticeReport NoticeDay?
+}
+
+// ======================================================
+// SIT SESSION
+// ======================================================
+
+model SitSession {
+  id             String    @id @default(cuid())
+  userId         String
+  practiceId     String
+  startedAt      DateTime  @default(now())
+  plannedSeconds Int
+  endedAt        DateTime?
+  draftBody      String    @default("")
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  practice Practice @relation(fields: [practiceId], references: [id])
+}
+
+// ======================================================
+// RESURFACING
+// ======================================================
+
+model Resurfacing {
+  id       String    @id @default(cuid())
+  userId   String
+  entryId  String
+  dueAt    DateTime
+  servedAt DateTime?
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  entry Entry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+
+  @@index([userId, dueAt, servedAt])
+}
+
+// ======================================================
+// NOTICE DAY
+// ======================================================
+
+model NoticeDay {
+  id            String   @id @default(cuid())
+  userId        String
+  practiceId    String
+  date          DateTime @db.Date
+  tally         Int      @default(0)
+  reportEntryId String?  @unique
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  practice    Practice @relation(fields: [practiceId], references: [id])
+  reportEntry Entry?   @relation(fields: [reportEntryId], references: [id])
+}
+
+// ======================================================
+// COMMITMENT
+// ======================================================
+
+model Commitment {
+  id            String           @id @default(cuid())
+  userId        String
+  userJourneyId String?
+  practiceId    String
+  status        CommitmentStatus
+  reps          Int              @default(0)
+  targetDays    Int
+  startedAt     DateTime         @default(now())
+
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userJourney UserJourney? @relation(fields: [userJourneyId], references: [id])
+  practice    Practice     @relation(fields: [practiceId], references: [id])
+
+  habitChecks HabitCheck[]
+}
+
+// ======================================================
+// HABIT CHECK
+// ======================================================
+
+model HabitCheck {
+  id           String   @id @default(cuid())
+  commitmentId String
+  date         DateTime @db.Date
+  done         Boolean  @default(false)
+
+  commitment Commitment @relation(fields: [commitmentId], references: [id], onDelete: Cascade)
+}
+
+// ======================================================
+// COLLECTION
+// ======================================================
+
+model Collection {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  description String
+  themeTags   String[] @default([])
+
+  quotes Quote[]
+}
+
+// ======================================================
+// QUOTE
+// ======================================================
+
+model Quote {
+  id           String          @id @default(cuid())
+  userId       String?
+  collectionId String?
+  text         String
+  author       String?
+  sourceTitle  String?
+  sourceType   QuoteSourceType
+  themeTags    String[]        @default([])
+  note         String?
+  clozeWords   String[]        @default([])
+
+  user       User?       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  collection Collection? @relation(fields: [collectionId], references: [id])
+
+  quoteCards QuoteCard[]
+}
+
+// ======================================================
+// QUOTE CARD
+// ======================================================
+
+model QuoteCard {
+  id             String    @id @default(cuid())
+  userId         String
+  quoteId        String
+  box            Int       @default(1)
+  dueAt          DateTime
+  lastReviewedAt DateTime?
+  clearedCount   Int       @default(0)
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quote Quote @relation(fields: [quoteId], references: [id], onDelete: Cascade)
+
+  @@index([userId, dueAt])
+}
+
+// ======================================================
+// DAY ACTIVITY
+// ======================================================
+
+model DayActivity {
+  id          String   @id @default(cuid())
+  userId      String
+  date        DateTime @db.Date
+  hadActivity Boolean  @default(false)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date])
 }
