@@ -1,25 +1,73 @@
 @import "tailwindcss";
 
+/*
+ * Dark mode is controlled by adding `.dark`
+ * to an ancestor, normally <html>.
+ */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
 }
 
+.dark {
+  color-scheme: dark;
+}
+
+@theme static {
+  /*
+   * Intentionally no destructive / danger / red semantic token.
+   * Skip, retire, abandon, and "not today" must not use red states
+   * and should carry the same visual weight as positive counterparts.
+   */
+
+  /* Remove Tailwind's default colour palette, including red. */
+  --color-*: initial;
+
+  /* Colours */
+  --color-bg: light-dark(#faf8f5, #171513);
+  --color-surface: light-dark(#fdfdfc, #211e1b);
+  --color-fg: light-dark(#322e2a, #f4f0ec);
+  --color-fg-muted: light-dark(#706b66, #aaa29c);
+  --color-border: light-dark(#e6e2db, #3b3631);
+  --color-accent: light-dark(#ac7459, #c88969);
+  --color-accent-fg: light-dark(#fdfdfc, #171513);
+
+  /* Type scale — intentionally only five steps */
+  --text-*: initial;
+
+  --text-xs: 0.8125rem;   /* 13px */
+  --text-sm: 0.9375rem;   /* 15px */
+  --text-base: 1.0625rem; /* 17px */
+  --text-lg: 1.25rem;     /* 20px */
+  --text-2xl: 2.125rem;   /* 34px */
+
+  /* Radii — intentionally only three values */
+  --radius-*: initial;
+
+  --radius-sm: 0.5rem;
+  --radius-md: 1rem;
+  --radius-lg: 2.5rem;
+
+  /* Motion */
+  --duration-completion: 600ms;
+  --duration-pill: 200ms;
+  --duration-ring: 2000ms;
+
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+}
+
+/*
+ * Keep these inline because Next.js font variables
+ * are referenced by Tailwind font utilities.
+ */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --font-sans: var(--font-inter);
   --font-fa: var(--font-vazirmatn);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--color-bg);
+  color: var(--color-fg);
 }
