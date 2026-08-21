@@ -1,0 +1,77 @@
+{
+  "slug": "feeling-management-en",
+  "kind": "theme",
+  "title": "Feeling Management",
+  "outcomeStatement": "Notice what you are feeling before it drives what you do.",
+  "totalDays": 3,
+  "dailyMinutes": 10,
+  "themeTags": [
+    "awareness",
+    "emotions"
+  ],
+  "locale": "en",
+  "phases": [
+    {
+      "index": 1,
+      "name": "Notice",
+      "subtitle": "See what is happening",
+      "startIndex": 1,
+      "endIndex": 2
+    },
+    {
+    "index": 2,
+    "name": "Name",
+    "subtitle": "Name what is happening",
+    "startIndex": 3,
+    "endIndex": 3
+  }
+  ],
+  "practices": [
+    {
+      "index": 1,
+      "type": "ACT",
+      "title": "Name what is happening",
+      "body": "The next time you notice a strong reaction today, pause and name the feeling before doing anything else.",
+      "themeTags": [
+        "awareness",
+        "emotions"
+      ],
+      "sourceType": "book",
+      "sourceTitle": "Example Source",
+      "sourceAuthor": "Example Author",
+      "minutes": 5,
+      "requiresOther": false
+    },
+    {
+      "index": 2,
+      "type": "SIT",
+      "title": "What happens just before you react?",
+      "body": "Think about a recent moment when a feeling quickly turned into an action.",
+      "themeTags": [
+        "awareness",
+        "reflection"
+      ],
+      "depth": 2,
+      "sourceType": "book",
+      "sourceTitle": "Example Source",
+      "sourceAuthor": "Example Author",
+      "suggestedMinutes": 10,
+      "revisitAfterDays": 30
+    },
+    {
+      "index": 3,
+      "type": "ACT",
+      "title": "Name what is happening",
+      "body": "The next time you notice a strong reaction today, pause and name the feeling before doing anything else.",
+      "themeTags": [
+        "awareness",
+        "emotions"
+      ],
+      "sourceType": "book",
+      "sourceTitle": "Example Source",
+      "sourceAuthor": "Example Author",
+      "minutes": 5,
+      "requiresOther": false
+    }
+  ]
+}
