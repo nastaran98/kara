@@ -12,5 +12,8 @@
     "today": "Today",
     "language": "Language",
     "continue": "Continue"
+  },
+  "Practice": {
+    "markAsDone": "Mark as Done"
   }
 }

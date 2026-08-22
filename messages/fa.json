@@ -12,5 +12,8 @@
     "today": "امروز",
     "language": "زبان",
     "continue": "ادامه"
+  },
+  "Practice": {
+    "markAsDone": "انجام شد"
   }
 }
