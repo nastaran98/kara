@@ -1,10 +1,11 @@
 {
-  "Nav": {
-    "home": "Home",
-    "about": "About",
+  "Navigation": {
+    "today": "Today",
+    "journal": "Journal",
+    "quotes": "Quotes",
+    "you": "You",
     "settings": "Settings",
-    "login": "Log in",
-    "logout": "Log out"
+    "tagline": "One thing at a time"
   },
   "Home": {
     "title": "Welcome",

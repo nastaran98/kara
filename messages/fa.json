@@ -1,10 +1,11 @@
 {
-  "Nav": {
-    "home": "خانه",
-    "about": "درباره ما",
+  "Navigation": {
+    "today": "امروز",
+    "journal": "ژورنال",
+    "quotes": "نقل‌قول‌ها",
+    "you": "تو",
     "settings": "تنظیمات",
-    "login": "ورود",
-    "logout": "خروج"
+    "tagline": "هر بار فقط یک چیز"
   },
   "Home": {
     "title": "خوش آمدید",
