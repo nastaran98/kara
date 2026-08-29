@@ -7,7 +7,7 @@ export const getActiveJourneyForUser = async (userId: string) => {
                 status: 'active'
             },
             include: {
-                journey: true
+                journey: true,
             }
         },
     )
@@ -15,7 +15,13 @@ export const getActiveJourneyForUser = async (userId: string) => {
       if (!activeJourney) {
     return null;
   }
-
+  const journeyPhases = await prisma.phase.findMany(
+    {
+      where: {
+          journeyId: activeJourney.journeyId
+      },
+    }
+  )
   const practice = await prisma.practice.findFirst({
     where: {
       journeyId: activeJourney.journeyId,
@@ -42,6 +48,7 @@ export const getActiveJourneyForUser = async (userId: string) => {
     userJourneyId: activeJourney.id,
     currentIndex: activeJourney.currentIndex,
     journey: activeJourney.journey,
+    phases: journeyPhases,
     practice,
   };
 

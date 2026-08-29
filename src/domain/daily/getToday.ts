@@ -1,4 +1,4 @@
-import type { TodayState } from "@/domain/daily/types";
+import type { TodayState, Phase } from "@/domain/types";
 
 export function getToday(state: TodayState) {
   if (state.hadActivityToday) {
@@ -19,4 +19,19 @@ export function getToday(state: TodayState) {
     dayState: "empty" as const,
     newPractice: null,
   };
+}
+
+
+
+export function getCurrentPhase(
+  currentIndex: number,
+  phases: readonly Phase[]
+): Phase | null {
+  return (
+    phases.find(
+      (phase) =>
+        currentIndex >= phase.startIndex &&
+        currentIndex <= phase.endIndex
+    ) ?? null
+  );
 }
