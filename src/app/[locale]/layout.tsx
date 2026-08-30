@@ -19,7 +19,8 @@ import {
 } from "@/i18n/routing";
 
 import {
-  inter,
+  manrope,
+  newsreader,
   vazirmatn,
 } from "@/lib/fonts";
 
@@ -40,7 +41,7 @@ export default async function LocaleLayout({
     <html
       lang={locale}
       dir={getDirection(locale)}
-      className={`${inter.variable} ${vazirmatn.variable}`}
+      className={`${manrope.variable} ${newsreader.variable} ${vazirmatn.variable}`}
     >
       <body className={getFont(locale)}>
         <NextIntlClientProvider>
@@ -48,10 +49,8 @@ export default async function LocaleLayout({
             <AppSidebar />
 
             <SidebarInset>
-              <header className="flex h-14 shrink-0 items-center justify-between border-b px-4">
+              <header className="flex h-14 shrink-0 items-center justify-between border-b border-border px-4">
                 <SidebarTrigger />
-
-                <LocaleToggle />
               </header>
 
               <main className="flex-1 p-4 md:p-6">

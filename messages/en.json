@@ -1,11 +1,12 @@
 {
   "Navigation": {
     "today": "Today",
-    "journal": "Journal",
+    "myLearnings": "My Learnings",
     "quotes": "Quotes",
     "you": "You",
     "settings": "Settings",
-    "tagline": "One thing at a time"
+    "tagline": "One thing at a time",
+    "library": "Library"
   },
   "Home": {
     "title": "Welcome",

@@ -9,6 +9,7 @@ import {
   Quote,
   Settings2,
   UserRound,
+  Library
 } from "lucide-react";
 
 import {
@@ -31,9 +32,14 @@ const navigationItems = [
     icon: CalendarCheck2,
   },
   {
-    key: "journal",
-    segment: "journal",
-    icon: NotebookText,
+    key: "myLearnings",
+    segment: "My Learnings",
+    icon: UserRound,
+  },
+  {
+    key: "library",
+    segment: "library",
+    icon: Library,
   },
   {
     key: "quotes",
@@ -58,51 +64,83 @@ export function AppSidebar() {
     <Sidebar
       side={isRtl ? "right" : "left"}
       dir={isRtl ? "rtl" : "ltr"}
-      variant="inset"
+      variant="sidebar"
       collapsible="icon"
+      className="
+        border-e
+        border-border
+        bg-bg
+        text-fg
+      "
     >
-        <SidebarHeader className="p-2">
-            <Link
-                href={`/${locale}/today`}
-                className="
-                flex h-10 items-center gap-2 rounded-md px-2
-                group-data-[collapsible=icon]:justify-center
-                group-data-[collapsible=icon]:px-0
-                "
-            >
-                {/* Logo — never collapses */}
-                <div
-                className="
-                    grid size-8 min-w-8 shrink-0 place-items-center
-                    rounded-lg bg-primary
-                    font-semibold text-primary-foreground
-                "
-                >
-                K
-                </div>
+      {/* ───────────────────────
+          BRAND
+      ─────────────────────── */}
+      <SidebarHeader className="p-3">
+        <Link
+          href={`/${locale}/today`}
+          className="
+            group/brand
+            flex
+            h-12
+            items-center
+            gap-3
+            rounded-md
+            px-2
+            transition-colors
+            duration-pill
+            ease-standard
+            hover:bg-surface
 
-                {/* Text — disappears when collapsed */}
-                <div
-                className="
-                    min-w-0
-                    group-data-[collapsible=icon]:hidden
-                "
-                >
-                <p className="truncate text-sm font-semibold">
-                    Kara
-                </p>
+            group-data-[collapsible=icon]:justify-center
+            group-data-[collapsible=icon]:px-0
+          "
+        >
+          {/* Logo */}
+          <div
+            className="
+              grid
+              size-9
+              min-w-9
+              shrink-0
+              place-items-center
+              rounded-md
+              bg-accent
+              text-sm
+              font-semibold
+              text-accent-fg
+              shadow-[0_3px_10px_rgba(172,116,89,0.14)]
+            "
+          >
+            K
+          </div>
 
-                <p className="truncate text-xs text-muted-foreground">
-                    {t("tagline")}
-                </p>
-                </div>
-            </Link>
+          {/* Brand text */}
+          <div
+            className="
+              min-w-0
+              leading-tight
+              group-data-[collapsible=icon]:hidden
+            "
+          >
+            <p className="truncate text-sm font-semibold text-fg">
+              Kara
+            </p>
+
+            <p className="mt-0.5 truncate text-xs text-fg-muted">
+              {t("tagline")}
+            </p>
+          </div>
+        </Link>
       </SidebarHeader>
 
-      <SidebarContent>
-        <SidebarGroup>
+      {/* ───────────────────────
+          MAIN NAVIGATION
+      ─────────────────────── */}
+      <SidebarContent className="px-2 py-4">
+        <SidebarGroup className="p-0">
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="gap-1">
               {navigationItems.map((item) => {
                 const href = `/${locale}/${item.segment}`;
 
@@ -117,9 +155,54 @@ export function AppSidebar() {
                     <SidebarMenuButton
                       render={<Link href={href} />}
                       isActive={isActive}
+                      className={`
+                        h-10
+                        rounded-md
+                        px-3
+                        text-sm
+                        font-normal
+                        transition-colors
+                        duration-pill
+                        ease-standard
+
+                        ${
+                          isActive
+                            ? `
+                              bg-accent/10
+                              font-medium
+                              text-accent
+                              hover:bg-accent/10
+                              hover:text-accent
+                            `
+                            : `
+                              text-fg-muted
+                              hover:bg-surface
+                              hover:text-fg
+                            `
+                        }
+
+                        group-data-[collapsible=icon]:mx-auto
+                        group-data-[collapsible=icon]:size-10
+                        group-data-[collapsible=icon]:justify-center
+                        group-data-[collapsible=icon]:px-0
+                      `}
                     >
-                      <Icon />
-                      <span>{t(item.key)}</span>
+                      <Icon
+                        className="
+                          size-[18px]
+                          shrink-0
+                        "
+                        strokeWidth={1.7}
+                      />
+
+                      <span
+                        className="
+                          truncate
+                          group-data-[collapsible=icon]:hidden
+                        "
+                      >
+                        {t(item.key)}
+                      </span>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 );
@@ -129,17 +212,58 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter>
+      {/* ───────────────────────
+          FOOTER
+      ─────────────────────── */}
+      <SidebarFooter className="border-t border-border p-2">
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
               render={
                 <Link href={`/${locale}/settings`} />
               }
-              isActive={pathname === `/${locale}/settings`}
+              isActive={
+                pathname === `/${locale}/settings`
+              }
+              className={`
+                h-10
+                rounded-md
+                px-3
+                text-sm
+                transition-colors
+                duration-pill
+                ease-standard
+
+                ${
+                  pathname === `/${locale}/settings`
+                    ? `
+                      bg-accent/10
+                      font-medium
+                      text-accent
+                      hover:bg-accent/10
+                      hover:text-accent
+                    `
+                    : `
+                      text-fg-muted
+                      hover:bg-surface
+                      hover:text-fg
+                    `
+                }
+
+                group-data-[collapsible=icon]:mx-auto
+                group-data-[collapsible=icon]:size-10
+                group-data-[collapsible=icon]:justify-center
+                group-data-[collapsible=icon]:px-0
+              `}
             >
-              <Settings2 />
-              <span>{t("settings")}</span>
+              <Settings2
+                className="size-[18px] shrink-0"
+                strokeWidth={1.7}
+              />
+
+              <span className="group-data-[collapsible=icon]:hidden">
+                {t("settings")}
+              </span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

@@ -12,9 +12,8 @@ export const getDirection = (locale: string) => {
    return 'ltr'
 }
 
-export const getFont = (locale: string) => {
-   if (locale == 'fa') {
-    return 'font-fa text-[1.0625rem] leading-[1.75]'
-   }
-   return 'font-sans'
+export function getFont(locale: string) {
+  return locale === "fa"
+    ? "font-fa"
+    : "font-sans";
 }

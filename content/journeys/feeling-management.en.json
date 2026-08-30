@@ -1,77 +1,383 @@
 {
-  "slug": "feeling-management-en",
+  "slug": "feeling-management",
   "kind": "theme",
-  "title": "Feeling Management",
-  "outcomeStatement": "Notice what you are feeling before it drives what you do.",
-  "totalDays": 3,
-  "dailyMinutes": 10,
-  "themeTags": [
-    "awareness",
-    "emotions"
-  ],
   "locale": "en",
+  "title": "Feeling Management",
+  "outcomeStatement": "By the end of this, you'll be able to name what you're feeling before it drives what you do.",
+  "totalDays": 28,
+  "dailyMinutes": 10,
+  "themeTags": ["emotions", "self-awareness", "relationships", "identity"],
+  "drawnFrom": [
+    "Permission to Feel — Marc Brackett",
+    "Kara"
+  ],
   "phases": [
     {
       "index": 1,
-      "name": "Notice",
-      "subtitle": "See what is happening",
+      "name": "Recognize",
+      "subtitle": "see it happening",
       "startIndex": 1,
-      "endIndex": 2
+      "endIndex": 7
     },
     {
-    "index": 2,
-    "name": "Name",
-    "subtitle": "Name what is happening",
-    "startIndex": 3,
-    "endIndex": 3
-  }
+      "index": 2,
+      "name": "Understand",
+      "subtitle": "find out what it's about",
+      "startIndex": 8,
+      "endIndex": 14
+    },
+    {
+      "index": 3,
+      "name": "Label",
+      "subtitle": "get precise",
+      "startIndex": 15,
+      "endIndex": 21
+    },
+    {
+      "index": 4,
+      "name": "Express & Regulate",
+      "subtitle": "say it, then choose",
+      "startIndex": 22,
+      "endIndex": 28
+    }
   ],
   "practices": [
     {
       "index": 1,
       "type": "ACT",
-      "title": "Name what is happening",
-      "body": "The next time you notice a strong reaction today, pause and name the feeling before doing anything else.",
-      "themeTags": [
-        "awareness",
-        "emotions"
-      ],
-      "sourceType": "book",
-      "sourceTitle": "Example Source",
-      "sourceAuthor": "Example Author",
+      "title": "The last one that got away from you",
+      "body": "Think of the most recent time you reacted in a way you didn't choose. Write three sentences: what happened, what you did, what you wish you'd done. No analysis yet — just the facts.",
+      "themeTags": ["self-awareness"],
       "minutes": 5,
-      "requiresOther": false
+      "requiresOther": false,
+      "sourceType": "original",
+      "sourceTitle": "Kara"
     },
     {
       "index": 2,
-      "type": "SIT",
-      "title": "What happens just before you react?",
-      "body": "Think about a recent moment when a feeling quickly turned into an action.",
-      "themeTags": [
-        "awareness",
-        "reflection"
-      ],
-      "depth": 2,
+      "type": "NOTICE",
+      "title": "Your body knows first",
+      "body": "Today, watch for the physical change that arrives before the feeling does — the jaw, the shoulders, the stomach, the held breath. Don't fix it. Just catch it happening.",
+      "noticeFor": "your body tightening",
+      "tallyLabel": "body",
+      "themeTags": ["emotions", "self-awareness"],
       "sourceType": "book",
-      "sourceTitle": "Example Source",
-      "sourceAuthor": "Example Author",
-      "suggestedMinutes": 10,
-      "revisitAfterDays": 30
+      "sourceTitle": "Permission to Feel",
+      "sourceAuthor": "Marc Brackett"
     },
     {
       "index": 3,
-      "type": "ACT",
-      "title": "Name what is happening",
-      "body": "The next time you notice a strong reaction today, pause and name the feeling before doing anything else.",
-      "themeTags": [
-        "awareness",
-        "emotions"
-      ],
+      "type": "SIT",
+      "title": "What do you do with a feeling you don't want?",
+      "body": "Not what you should do. What you actually do — the honest mechanism.",
+      "suggestedMinutes": 10,
+      "depth": 2,
+      "revisitAfterDays": 60,
+      "themeTags": ["emotions", "identity"],
       "sourceType": "book",
-      "sourceTitle": "Example Source",
-      "sourceAuthor": "Example Author",
+      "sourceTitle": "Permission to Feel",
+      "sourceAuthor": "Marc Brackett"
+    },
+    {
+      "index": 4,
+      "type": "ACT",
+      "title": "Your three reliable triggers",
+      "body": "Write the three situations that most dependably set you off. Be specific — not \"work stress\" but \"being interrupted mid-sentence in a meeting\". Specific is what you can see coming.",
+      "themeTags": ["self-awareness"],
+      "minutes": 10,
+      "requiresOther": false,
+      "sourceType": "book",
+      "sourceTitle": "Permission to Feel",
+      "sourceAuthor": "Marc Brackett"
+    },
+    {
+      "index": 5,
+      "type": "KEEP",
+      "cue": "Before replying to anything that stings",
+      "behavior": "one full breath, all the way out",
+      "polarity": "do",
+      "targetDays": 21,
+      "title": "One breath before the reply",
+      "body": "The gap between feeling and acting is where every other skill in this journey lives. This is the smallest possible version of it.",
+      "themeTags": ["emotions"],
+      "sourceType": "original",
+      "sourceTitle": "Kara"
+    },
+    {
+      "index": 6,
+      "type": "NOTICE",
+      "title": "Who gets which version of you",
+      "body": "Today, notice who gets your patient version and who gets the sharp one. No conclusions. Just count.",
+      "noticeFor": "the sharp version showing up",
+      "tallyLabel": "sharp",
+      "themeTags": ["relationships", "self-awareness"],
+      "sourceType": "original",
+      "sourceTitle": "Kara"
+    },
+    {
+      "index": 7,
+      "type": "SIT",
+      "title": "What surprised you about what you saw this week?",
+      "body": "You've spent seven days watching instead of fixing. Look back at what you wrote.",
+      "suggestedMinutes": 10,
+      "depth": 2,
+      "revisitAfterDays": null,
+      "themeTags": ["self-awareness"],
+      "sourceType": "original",
+      "sourceTitle": "Kara"
+    },
+    {
+      "index": 8,
+      "type": "ACT",
+      "title": "Rewind the tape",
+      "body": "Pick one flare-up from the past week. Write what happened in the thirty minutes before it. Most reactions are already loaded before the trigger arrives.",
+      "themeTags": ["emotions", "self-awareness"],
+      "minutes": 10,
+      "requiresOther": false,
+      "sourceType": "book",
+      "sourceTitle": "Permission to Feel",
+      "sourceAuthor": "Marc Brackett"
+    },
+    {
+      "index": 9,
+      "type": "SIT",
+      "title": "What feeling are you least willing to be seen having?",
+      "body": "Take your time with this one. The answer is usually not the first one that arrives.",
+      "suggestedMinutes": 15,
+      "depth": 3,
+      "revisitAfterDays": 90,
+      "themeTags": ["emotions", "identity", "fear"],
+      "sourceType": "book",
+      "sourceTitle": "Permission to Feel",
+      "sourceAuthor": "Marc Brackett"
+    },
+    {
+      "index": 10,
+      "type": "NOTICE",
+      "title": "What you reach for",
+      "body": "Today, notice what your hand goes to when a feeling arrives that you don't want — the phone, the fridge, the tab, the joke. Just see it.",
+      "noticeFor": "reaching for something instead of feeling it",
+      "tallyLabel": "reached",
+      "themeTags": ["emotions", "self-awareness"],
+      "sourceType": "original",
+      "sourceTitle": "Kara"
+    },
+    {
+      "index": 11,
+      "type": "ACT",
+      "title": "The same story, their side",
+      "body": "Take the flare-up from day 8 and write it as the other person would tell it. Not a fairer version — their version. You don't have to agree with it.",
+      "themeTags": ["relationships"],
+      "minutes": 10,
+      "requiresOther": false,
+      "sourceType": "original",
+      "sourceTitle": "Kara"
+    },
+    {
+      "index": 12,
+      "type": "SIT",
+      "title": "Which feeling in you is usually covering another one?",
+      "body": "Anger is often the loud one standing in front of something quieter.",
+      "suggestedMinutes": 10,
+      "depth": 2,
+      "revisitAfterDays": 60,
+      "themeTags": ["emotions"],
+      "sourceType": "book",
+      "sourceTitle": "Permission to Feel",
+      "sourceAuthor": "Marc Brackett"
+    },
+    {
+      "index": 13,
+      "type": "ACT",
+      "title": "The sentence you didn't say",
+      "body": "Think of a recent moment you softened or swallowed something. Write the direct version — one sentence, what you actually needed. You're not sending it. You're finding out whether you can write it.",
+      "themeTags": ["relationships", "emotions"],
       "minutes": 5,
-      "requiresOther": false
+      "requiresOther": false,
+      "sourceType": "book",
+      "sourceTitle": "Permission to Feel",
+      "sourceAuthor": "Marc Brackett"
+    },
+    {
+      "index": 14,
+      "type": "SIT",
+      "title": "What have you learned about what your feelings are usually about?",
+      "body": "Two weeks in. Read back over what you've written before you answer.",
+      "suggestedMinutes": 10,
+      "depth": 2,
+      "revisitAfterDays": null,
+      "themeTags": ["emotions", "self-awareness"],
+      "sourceType": "original",
+      "sourceTitle": "Kara"
+    },
+    {
+      "index": 15,
+      "type": "ACT",
+      "title": "Count your words",
+      "body": "Write down every word you actually use for feelings — the ones that come out of your mouth, not the ones you'd find in a list. Count them. Most people have fewer than ten.",
+      "themeTags": ["emotions"],
+      "minutes": 5,
+      "requiresOther": false,
+      "sourceType": "book",
+      "sourceTitle": "Permission to Feel",
+      "sourceAuthor": "Marc Brackett"
+    },
+    {
+      "index": 16,
+      "type": "ACT",
+      "title": "Energy and pleasantness",
+      "body": "Draw two axes: energy high to low, pleasantness high to low. Place your last week's strongest moods in the four quadrants. Notice which quadrant you live in and which one you avoid.",
+      "themeTags": ["emotions", "self-awareness"],
+      "minutes": 10,
+      "requiresOther": false,
+      "sourceType": "book",
+      "sourceTitle": "Permission to Feel",
+      "sourceAuthor": "Marc Brackett"
+    },
+    {
+      "index": 17,
+      "type": "NOTICE",
+      "title": "Two words instead of one",
+      "body": "Three times today, when you notice a feeling, name it in two words rather than one. Not \"bad\" — \"tired and unappreciated\". Precision is the skill.",
+      "noticeFor": "chances to name it precisely",
+      "tallyLabel": "named",
+      "themeTags": ["emotions"],
+      "sourceType": "book",
+      "sourceTitle": "Permission to Feel",
+      "sourceAuthor": "Marc Brackett"
+    },
+    {
+      "index": 18,
+      "type": "SIT",
+      "title": "When you say you're fine, what are you usually actually?",
+      "body": "There's probably more than one answer, depending on who's asking.",
+      "suggestedMinutes": 10,
+      "depth": 2,
+      "revisitAfterDays": 60,
+      "themeTags": ["emotions", "relationships"],
+      "sourceType": "original",
+      "sourceTitle": "Kara"
+    },
+    {
+      "index": 19,
+      "type": "KEEP",
+      "cue": "Before you sleep",
+      "behavior": "one sentence: the strongest feeling today, and what it was about",
+      "polarity": "do",
+      "targetDays": 14,
+      "title": "One sentence before sleep",
+      "body": "Naming it once a day builds the vocabulary faster than anything else in this journey.",
+      "themeTags": ["emotions", "self-awareness"],
+      "sourceType": "book",
+      "sourceTitle": "Permission to Feel",
+      "sourceAuthor": "Marc Brackett"
+    },
+    {
+      "index": 20,
+      "type": "ACT",
+      "title": "Go back and relabel it",
+      "body": "Open what you wrote on day 1 — the reaction that got away from you. Rewrite the feeling using the more precise words you have now. Notice whether the event looks different.",
+      "themeTags": ["emotions", "self-awareness"],
+      "minutes": 10,
+      "requiresOther": false,
+      "sourceType": "original",
+      "sourceTitle": "Kara"
+    },
+    {
+      "index": 21,
+      "type": "SIT",
+      "title": "What changed when you got more precise?",
+      "body": "Look at the difference between how you described things in week one and how you describe them now.",
+      "suggestedMinutes": 10,
+      "depth": 2,
+      "revisitAfterDays": null,
+      "themeTags": ["emotions"],
+      "sourceType": "original",
+      "sourceTitle": "Kara"
+    },
+    {
+      "index": 22,
+      "type": "ACT",
+      "title": "Write it, don't send it",
+      "body": "Pick something you softened recently. Write the honest version in full — the whole thing, unedited. Then close it. This is practice in saying it, not a decision to say it.",
+      "themeTags": ["relationships", "emotions"],
+      "minutes": 10,
+      "requiresOther": false,
+      "sourceType": "book",
+      "sourceTitle": "Permission to Feel",
+      "sourceAuthor": "Marc Brackett"
+    },
+    {
+      "index": 23,
+      "type": "SIT",
+      "title": "Who taught you which feelings were allowed?",
+      "body": "Most people learned the rules early and have never looked at them since.",
+      "suggestedMinutes": 15,
+      "depth": 3,
+      "revisitAfterDays": 90,
+      "themeTags": ["emotions", "identity", "relationships"],
+      "sourceType": "book",
+      "sourceTitle": "Permission to Feel",
+      "sourceAuthor": "Marc Brackett"
+    },
+    {
+      "index": 24,
+      "type": "ACT",
+      "title": "Tell one person",
+      "body": "Say out loud, to one person you trust, the feeling you've been managing alone. You don't need them to fix it. Saying it is the whole practice.",
+      "themeTags": ["relationships", "emotions"],
+      "minutes": 15,
+      "requiresOther": true,
+      "sourceType": "book",
+      "sourceTitle": "Permission to Feel",
+      "sourceAuthor": "Marc Brackett"
+    },
+    {
+      "index": 25,
+      "type": "NOTICE",
+      "title": "The gap",
+      "body": "Today, notice the space between feeling something and acting on it. Some days it's a second. Some days it's longer than you'd think. Just measure it.",
+      "noticeFor": "the gap between feeling and acting",
+      "tallyLabel": "gap",
+      "themeTags": ["emotions", "self-awareness"],
+      "sourceType": "book",
+      "sourceTitle": "Permission to Feel",
+      "sourceAuthor": "Marc Brackett"
+    },
+    {
+      "index": 26,
+      "type": "ACT",
+      "title": "Your two that actually work",
+      "body": "Of everything you do to settle yourself — walking, breathing, calling someone, writing, leaving the room — write the two that genuinely work for you, and the specific situation each one is for. Two you'll use beats ten you won't.",
+      "themeTags": ["emotions"],
+      "minutes": 10,
+      "requiresOther": false,
+      "sourceType": "book",
+      "sourceTitle": "Permission to Feel",
+      "sourceAuthor": "Marc Brackett"
+    },
+    {
+      "index": 27,
+      "type": "ACT",
+      "title": "One real situation, on purpose",
+      "body": "Today, in one real moment where you'd normally react automatically, use the gap. Then write what you did instead — and whether it worked. Both answers are useful.",
+      "themeTags": ["emotions", "relationships"],
+      "minutes": 10,
+      "requiresOther": false,
+      "sourceType": "original",
+      "sourceTitle": "Kara"
+    },
+    {
+      "index": 28,
+      "type": "SIT",
+      "title": "That first reaction — what would happen now?",
+      "body": "On day 1 you wrote about reacting in a way you didn't choose. Read it again. Then answer: if that exact thing happened this afternoon, what would be different?",
+      "suggestedMinutes": 15,
+      "depth": 3,
+      "revisitAfterDays": 90,
+      "themeTags": ["emotions", "identity", "self-awareness"],
+      "sourceType": "original",
+      "sourceTitle": "Kara"
     }
   ]
 }
