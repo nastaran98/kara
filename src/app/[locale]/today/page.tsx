@@ -15,7 +15,7 @@ import {
   getCurrentPhase,
   getToday,
 } from "@/domain/daily/getToday";
-import { getActiveJourneyForUser } from "@/server/repositories/today.repo";
+import { getTodayState } from "@/server/services/getTodayState";
 
 const practiceLabels = {
   ACT: "Acceptance & Commitment Therapy",
@@ -34,7 +34,7 @@ export default async function TodayPage() {
 
   const userId = session.user.id;
 
-  const state = await getActiveJourneyForUser(userId);
+  const state = await getTodayState(userId);
 
   if (!state) {
     return (

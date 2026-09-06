@@ -33,8 +33,8 @@ const navigationItems = [
   },
   {
     key: "myLearnings",
-    segment: "My Learnings",
-    icon: UserRound,
+    segment: "myLearnings",
+    icon: NotebookText,
   },
   {
     key: "library",

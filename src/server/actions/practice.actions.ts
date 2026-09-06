@@ -1,6 +1,8 @@
 "use server";
-import {completePractice} from '@/server/services/completePractice'
 import { revalidatePath } from "next/cache";
+import { CreatePracticeInput } from '@/domain/types'
+import { completePractice } from '@/server/services/completePractice'
+import { createPractice } from '@/server/services/createPractice'
 
 export async function completePracticeAction(
   locale: string,
@@ -11,4 +13,10 @@ export async function completePracticeAction(
   await completePractice(userId, userJourneyId, practiceId);
 
   revalidatePath(`/${locale}/today`);
+}
+
+export async function createPracticeAction(
+  userId: string, payload: CreatePracticeInput
+) {
+  await createPractice(userId, payload)
 }

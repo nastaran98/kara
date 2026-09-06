@@ -1,5 +1,9 @@
 import { PrismaNeon } from "@prisma/adapter-neon";
-import { PrismaClient } from "@/generated/prisma/client";
+import { Prisma, PrismaClient } from "@/generated/prisma/client";
+
+// Accepted by repository functions that must run inside a transaction
+// (pass the callback's `tx`) as well as standalone (pass `prisma`).
+export type Db = PrismaClient | Prisma.TransactionClient;
 
 function createPrismaClient() {
   const connectionString = process.env.DATABASE_URL;

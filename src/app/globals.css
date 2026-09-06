@@ -21,25 +21,49 @@
    */
 
   /* ─────────────────────────────
-     COLORS
+     COLORS — neutrals
+     Cool, slightly indigo-leaning neutral to sit under
+     the new accent family below.
   ───────────────────────────── */
 
-  --color-*: initial;
+  /* --color-*: initial; */
 
-  --color-bg: light-dark(#f6f8f6, #101614);
+  --color-bg: light-dark(#f5f6fa, #101018);
 
-  --color-surface: light-dark(#ffffff, #18201d);
+  --color-surface: light-dark(#ffffff, #191a24);
 
-  --color-fg: light-dark(#202925, #edf3ef);
+  --color-fg: light-dark(#20222b, #edeef5);
 
-  --color-fg-muted: light-dark(#6f7b75, #9ca9a2);
+  --color-fg-muted: light-dark(#6d7080, #9a9cae);
 
-  --color-border: light-dark(#dde4df, #2d3934);
+  --color-border: light-dark(#dcdee6, #2b2c3a);
 
-  --color-accent: light-dark(#527968, #78a08e);
+  --color-accent: light-dark(#5b5fa3, #8b8fd6);
 
-  --color-accent-fg: light-dark(#ffffff, #101614);
+  --color-accent-fg: light-dark(#ffffff, #101018);
 
+  /* ─────────────────────────────
+     COLORS — practice types
+     From the new palette, lightest → darkest maps to
+     quietest → most demanding practice:
+       Keep    (lightest, pale blue)  — carried, meant to stay quiet
+       Notice  (medium blue)          — ambient awareness
+       Act     (amber)                — do something now
+       Sit     (deep indigo)          — the heaviest, most inward one
+     Each has a paired -fg for legible text/icons on its fill.
+  ───────────────────────────── */
+
+  --color-act: light-dark(#f2c36c, #c99a3f);
+  --color-act-fg: light-dark(#3b2a06, #17110a);
+
+  --color-sit: light-dark(#5b62a6, #8890d1);
+  --color-sit-fg: light-dark(#ffffff, #101018);
+
+  --color-notice: light-dark(#6fa8d0, #3f6079);
+  --color-notice-fg: light-dark(#0c2433, #e9f2f8);
+
+  --color-keep: light-dark(#a9ddec, #35525e);
+  --color-keep-fg: light-dark(#0c2733, #e9f2f8);
 
   /* ─────────────────────────────
      TYPOGRAPHY
@@ -87,6 +111,51 @@
   --font-fa: var(--font-vazirmatn);
 }
 
+/*
+ * shadcn/ui bridge.
+ * The primitives in components/ui/* (Button, Input, Dialog, Field...)
+ * are hardcoded to this exact variable vocabulary — bg-background,
+ * border-input, ring-ring, bg-primary, etc. Kara's own tokens above
+ * use different names for the same ideas, so without this block the
+ * primitives resolve to nothing and fall back to native browser
+ * styling. This is why everything renders flat gray.
+ *
+ * Note: shadcn's "--accent" is a hover/highlight tint, NOT a brand
+ * color — it is intentionally mapped to something subtle here.
+ * Kara's actual brand accent lives on "--primary".
+ */
+@theme inline {
+  --color-background: var(--color-bg);
+  --color-foreground: var(--color-fg);
+
+  --color-card: var(--color-surface);
+  --color-card-foreground: var(--color-fg);
+  --color-popover: var(--color-surface);
+  --color-popover-foreground: var(--color-fg);
+
+  --color-primary: var(--color-accent);
+  --color-primary-foreground: var(--color-accent-fg);
+  --color-secondary: var(--color-surface);
+  --color-secondary-foreground: var(--color-fg);
+
+  --color-muted: var(--color-surface);
+  --color-muted-foreground: var(--color-fg-muted);
+
+  /* shadcn's own "accent" slot and Kara's brand accent are the same
+     underlying CSS variable — there is only one --color-accent, and
+     Kara's indigo already lives there (defined above). Don't redefine
+     it here; that previously clobbered it with border-gray. Menu/hover
+     highlights simply inherit the brand indigo, which is fine. */
+  --color-accent-foreground: var(--color-accent-fg);
+
+  --color-input: var(--color-border);
+  --color-ring: var(--color-accent);
+
+  /* Kara has no red state — destructive maps to a neutral, not a warning color */
+  --color-destructive: var(--color-fg-muted);
+  --color-destructive-foreground: var(--color-surface);
+}
+
 
 
 /* ─────────────────────────────
@@ -101,4 +170,8 @@ body {
   min-height: 100vh;
   background: var(--color-bg);
   color: var(--color-fg);
+}
+
+input {
+  border-radius: 10px;
 }

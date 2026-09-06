@@ -92,6 +92,7 @@ model User {
   quotes            Quote[]
   quoteCards        QuoteCard[]
   dayActivities     DayActivity[]
+  poolEntries   PoolEntry[]
 }
 
 model Account {
@@ -182,10 +183,13 @@ model Practice {
   phaseId      String?
   authorUserId String?
   index        Int?
+  isPrivate Boolean @default(true)
 
   type      PracticeType
-  title     String
-  body      String
+  // Not every type uses these: NOTICE uses `noticeFor` and KEEP uses
+  // `cue`/`behavior` instead of a title, and KEEP has no body at all.
+  title     String?
+  body      String?
   themeTags String[]     @default([])
   depth     Int?
 
@@ -221,6 +225,7 @@ model Practice {
   sitSessions  SitSession[]
   noticeDays   NoticeDay[]
   commitments  Commitment[]
+  poolEntries   PoolEntry[]
 }
 
 // ======================================================
@@ -452,4 +457,17 @@ model DayActivity {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, date])
+}
+
+model PoolEntry {
+  id         String   @id @default(cuid())
+  userId     String
+  practiceId String
+  addedAt    DateTime @default(now())
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  practice Practice @relation(fields: [practiceId], references: [id])
+
+  @@unique([userId, practiceId])
+  @@index([userId])
 }
