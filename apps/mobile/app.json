@@ -2,6 +2,7 @@
   "expo": {
     "name": "Kara",
     "slug": "mobile",
+    "scheme": "kara",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -26,6 +27,10 @@
       "eas": {
         "projectId": "e7bfbe04-77ba-4573-aa6c-a557c938b4e5"
       }
-    }
+    },
+    "plugins": [
+      "expo-web-browser",
+      "expo-secure-store"
+    ]
   }
 }

@@ -30,13 +30,9 @@ yarn-error.*
 .DS_Store
 *.pem
 
-# local env files — the template only ignores .env*.local by default, but
-# .env here holds a real (if long-lived) auth token, so it's excluded too.
-# The root .gitignore's blanket `.env*` would also catch .env.example
-# (a template with no secret in it, meant to be committed) — un-ignore it.
+# local env files
 .env
 .env*.local
-!.env.example
 
 # typescript
 *.tsbuildinfo

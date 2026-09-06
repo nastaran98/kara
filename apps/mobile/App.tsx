@@ -11,7 +11,8 @@ import { StatusBar } from "expo-status-bar";
 
 import { getToday, getCurrentPhase, type Phase, type TodayState } from "@kara/domain";
 
-import { API_BASE_URL, TEST_AUTH_TOKEN } from "./config";
+import { API_BASE_URL } from "./config";
+import { getStoredToken, signIn, signOut } from "./auth";
 
 // Shape of GET /api/today — TodayState (hadActivityToday + practice) plus
 // the extra context needed to complete a practice and show its phase.
@@ -24,16 +25,18 @@ type TodayResponse = TodayState & {
 };
 
 type Status =
+  | { kind: "checkingAuth" }
+  | { kind: "signedOut" }
   | { kind: "loading" }
   | { kind: "error"; message: string }
   | { kind: "ready"; data: TodayResponse };
 
-async function authorizedFetch(path: string, init?: RequestInit) {
+async function authorizedFetch(path: string, token: string, init?: RequestInit) {
   const response = await fetch(`${API_BASE_URL}${path}`, {
     ...init,
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${TEST_AUTH_TOKEN}`,
+      Authorization: `Bearer ${token}`,
       ...init?.headers,
     },
   });
@@ -47,13 +50,14 @@ async function authorizedFetch(path: string, init?: RequestInit) {
 }
 
 export default function App() {
-  const [status, setStatus] = useState<Status>({ kind: "loading" });
+  const [token, setToken] = useState<string | null>(null);
+  const [status, setStatus] = useState<Status>({ kind: "checkingAuth" });
   const [completing, setCompleting] = useState(false);
 
-  const loadToday = useCallback(() => {
+  const loadToday = useCallback((activeToken: string) => {
     setStatus({ kind: "loading" });
 
-    authorizedFetch("/api/today")
+    authorizedFetch("/api/today", activeToken)
       .then((data: TodayResponse) => setStatus({ kind: "ready", data }))
       .catch((error: unknown) =>
         setStatus({
@@ -63,19 +67,46 @@ export default function App() {
       );
   }, []);
 
+  // On launch: do we already have a token from a previous sign-in?
   useEffect(() => {
-    loadToday();
+    getStoredToken().then((stored) => {
+      if (stored) {
+        setToken(stored);
+        loadToday(stored);
+      } else {
+        setStatus({ kind: "signedOut" });
+      }
+    });
   }, [loadToday]);
 
+  async function handleSignIn() {
+    const newToken = await signIn();
+
+    if (!newToken) {
+      setStatus({ kind: "error", message: "Sign-in was cancelled or failed." });
+      return;
+    }
+
+    setToken(newToken);
+    loadToday(newToken);
+  }
+
+  async function handleSignOut() {
+    await signOut();
+    setToken(null);
+    setStatus({ kind: "signedOut" });
+  }
+
   async function handleComplete(practiceId: string, userJourneyId: string) {
+    if (!token) return;
     setCompleting(true);
 
     try {
-      await authorizedFetch(`/api/practices/${practiceId}/complete`, {
+      await authorizedFetch(`/api/practices/${practiceId}/complete`, token, {
         method: "POST",
         body: JSON.stringify({ userJourneyId }),
       });
-      loadToday();
+      loadToday(token);
     } catch (error) {
       setStatus({
         kind: "error",
@@ -90,12 +121,28 @@ export default function App() {
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
 
+      {status.kind === "checkingAuth" && <ActivityIndicator size="large" />}
+
+      {status.kind === "signedOut" && (
+        <View style={styles.card}>
+          <Text style={styles.title}>Kara</Text>
+          <Text style={styles.body}>Sign in to see today's practice.</Text>
+          <Button title="Sign in" onPress={handleSignIn} />
+        </View>
+      )}
+
       {status.kind === "loading" && <ActivityIndicator size="large" />}
 
       {status.kind === "error" && (
         <View style={styles.card}>
           <Text style={styles.error}>{status.message}</Text>
-          <Button title="Retry" onPress={loadToday} />
+          <Button
+            title="Retry"
+            onPress={() => (token ? loadToday(token) : handleSignIn())}
+          />
+          {token && (
+            <Button title="Sign out" onPress={handleSignOut} color="#6d7080" />
+          )}
         </View>
       )}
 
@@ -104,6 +151,7 @@ export default function App() {
           data={status.data}
           completing={completing}
           onComplete={handleComplete}
+          onSignOut={handleSignOut}
         />
       )}
     </SafeAreaView>
@@ -114,10 +162,12 @@ function TodayCard({
   data,
   completing,
   onComplete,
+  onSignOut,
 }: {
   data: TodayResponse;
   completing: boolean;
   onComplete: (practiceId: string, userJourneyId: string) => void;
+  onSignOut: () => void;
 }) {
   // Same control flow as src/app/[locale]/(app)/today/page.tsx — no active
   // journey is checked first, then the domain's getToday()/getCurrentPhase()
@@ -128,6 +178,7 @@ function TodayCard({
       <View style={styles.card}>
         <Text style={styles.title}>No active journey</Text>
         <Text style={styles.body}>Choose a journey to start practicing.</Text>
+        <Button title="Sign out" onPress={onSignOut} color="#6d7080" />
       </View>
     );
   }
@@ -144,6 +195,7 @@ function TodayCard({
         <Text style={styles.body}>
           You showed up. Your next practice will be here tomorrow.
         </Text>
+        <Button title="Sign out" onPress={onSignOut} color="#6d7080" />
       </View>
     );
   }
@@ -152,6 +204,7 @@ function TodayCard({
     return (
       <View style={styles.card}>
         <Text style={styles.body}>No practice found.</Text>
+        <Button title="Sign out" onPress={onSignOut} color="#6d7080" />
       </View>
     );
   }
@@ -182,6 +235,8 @@ function TodayCard({
           data.userJourneyId && onComplete(practice.id, data.userJourneyId)
         }
       />
+
+      <Button title="Sign out" onPress={onSignOut} color="#6d7080" />
     </View>
   );
 }

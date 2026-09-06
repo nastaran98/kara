@@ -1,8 +1,10 @@
 // One-off local script — not deployed, not a network-reachable endpoint.
-// Prints a long-lived Bearer token for an existing user, to paste into the
-// Expo app's config while there's no mobile sign-in UI (see the RN POC
-// prompt's Phase 3 notes). Requires AUTH_SECRET to match whatever the
-// deployed app verifies against — same value already in Vercel's env vars.
+// Prints a long-lived Bearer token for an existing user. The mobile app
+// itself now gets its token through a real sign-in flow (see apps/mobile/
+// auth.ts and src/app/[locale]/(auth)/mobile-bridge) — this is for ad-hoc
+// testing of the API directly (curl, etc.) without going through that UI.
+// Requires AUTH_SECRET to match whatever the deployed app verifies
+// against — same value already in Vercel's env vars.
 //
 // Usage: pnpm mint-test-token someone@example.com
 
