@@ -6,10 +6,12 @@ const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
 
-  // Domain code must stay framework-independent.
+  // Domain code must stay framework-independent — it's a separate
+  // workspace package (@kara/domain) consumed by both the Next.js web
+  // app and the Expo mobile app, so nothing here can assume either.
   {
     name: "domain-boundaries",
-    files: ["src/domain/**/*.{ts,tsx}"],
+    files: ["packages/domain/src/**/*.{ts,tsx}"],
 
     rules: {
       "no-restricted-imports": [
@@ -17,9 +19,14 @@ const eslintConfig = defineConfig([
         {
           patterns: [
             {
-              group: ["react", "react/*"],
+              group: ["react", "react/*", "next", "next/*", "react-native", "react-native/*"],
               message:
-                "domain must not import React. Keep domain code framework-independent.",
+                "domain must not import a UI framework. Keep domain code framework-independent.",
+            },
+            {
+              group: ["@prisma/*", "*/generated/prisma/*", "*/generated/prisma"],
+              message:
+                "domain must not import Prisma. It's transport/storage-agnostic — Prisma belongs in server/repositories.",
             },
           ],
         },

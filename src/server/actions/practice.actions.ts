@@ -1,6 +1,6 @@
 "use server";
 import { revalidatePath } from "next/cache";
-import { CreatePracticeInput } from '@/domain/types'
+import { CreatePracticeInput } from '@kara/domain'
 import { completePractice } from '@/server/services/completePractice'
 import { createPractice } from '@/server/services/createPractice'
 

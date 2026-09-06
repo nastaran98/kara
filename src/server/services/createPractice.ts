@@ -1,4 +1,4 @@
-import { CreatePracticeInput } from '@/domain/types';
+import { CreatePracticeInput } from '@kara/domain';
 import { createPracticeWithPoolEntry } from '@/server/repositories/practice.repo';
 
 // A user-authored practice always lands in that user's pool — the service's

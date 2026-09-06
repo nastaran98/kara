@@ -1,5 +1,5 @@
 import { prisma, type Db } from '@/server/db';
-import { CreatePracticeInput } from '@/domain/types'
+import { CreatePracticeInput } from '@kara/domain'
 import { insertPoolEntry } from '@/server/repositories/poolEntry.repo';
 
 // Single-table write. `db` defaults to the shared client, but a caller

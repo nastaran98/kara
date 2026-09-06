@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useState, useTransition } from "react"
 import { createPracticeAction } from "@/server/actions/practice.actions"
-import { CreatePracticeInput } from "@/domain/types"
+import { CreatePracticeInput } from "@kara/domain"
 
 type PracticeType = 'ACT' | 'SIT' | 'NOTICE' | 'KEEP'
 

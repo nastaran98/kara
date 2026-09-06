@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import {
   getCurrentPhase,
   getToday,
-} from "@/domain/daily/getToday";
+} from "@kara/domain";
 import { getTodayState } from "@/server/services/getTodayState";
 
 const practiceLabels = {

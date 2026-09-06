@@ -1,4 +1,4 @@
-import type { TodayState, Phase } from "@/domain/types";
+import type { TodayState, Phase } from "../types";
 
 export function getToday(state: TodayState) {
   if (state.hadActivityToday) {
