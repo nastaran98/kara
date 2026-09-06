@@ -1,11 +1,12 @@
 {
   "Navigation": {
     "today": "امروز",
-    "journal": "ژورنال",
+    "myLearnings": "آموخته‌های من",
     "quotes": "نقل‌قول‌ها",
     "you": "تو",
     "settings": "تنظیمات",
-    "tagline": "هر بار فقط یک چیز"
+    "tagline": "هر بار فقط یک چیز",
+    "library": "کتابخانه"
   },
   "Home": {
     "title": "خوش آمدید",

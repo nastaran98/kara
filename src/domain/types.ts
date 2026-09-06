@@ -19,7 +19,7 @@ export type Phase = {
 };
 
 export type CreatePracticeInput = {
-    type: string;
+    type: "ACT" | "SIT" | "NOTICE" | "KEEP";
     themeTags: Array<string>;
     sourceType?: string | null;
     sourceTitle?: string | null;
@@ -34,6 +34,6 @@ export type CreatePracticeInput = {
     tallyLabel?: string | null;
     cue?: string | null;
     behavior?: string | null;
-    polarity?: string | null;
+    polarity?: "do" | "avoid" | null;
     targetDays?: number | null;
 }
