@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import { getToday, getCurrentPhase } from "@kara/domain";
 import { getUserId } from "@/server/auth/getUserId";
@@ -8,8 +8,8 @@ import { getTodayState } from "@/server/services/getTodayState";
 // check, call the existing service, shape the response. No business logic
 // lives here; `getTodayState` and `getToday`/`getCurrentPhase` are the same
 // functions the web Today page calls.
-export async function GET() {
-  const userId = await getUserId();
+export async function GET(request: NextRequest) {
+  const userId = await getUserId(request);
 
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
