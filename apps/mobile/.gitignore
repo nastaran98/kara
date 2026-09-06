@@ -30,7 +30,9 @@ yarn-error.*
 .DS_Store
 *.pem
 
-# local env files
+# local env files — the template only ignores .env*.local by default, but
+# .env here holds a real (if long-lived) auth token, so it's excluded too.
+.env
 .env*.local
 
 # typescript
