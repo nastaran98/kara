@@ -408,6 +408,10 @@ model Collection {
 // ======================================================
 
 model Quote {
+  // Seeded content (KARA-46) sets this to a stable, human-readable id
+  // (e.g. "atomic-habits:01") instead of taking the cuid default — the
+  // seed script upserts by `id`, so re-seeding never creates duplicates
+  // and user-authored quotes just keep the generated cuid.
   id           String          @id @default(cuid())
   userId       String?
   collectionId String?
@@ -437,6 +441,7 @@ model QuoteCard {
   dueAt          DateTime
   lastReviewedAt DateTime?
   clearedCount   Int       @default(0)
+  createdAt      DateTime  @default(now())
 
   user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
   quote Quote @relation(fields: [quoteId], references: [id], onDelete: Cascade)

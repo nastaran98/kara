@@ -33,6 +33,20 @@ export const createUserJourney = (
   })
 }
 
+export const getUserJourneys = (userId: string) => {
+  return prisma.userJourney.findMany({
+    where: { userId },
+    include: { journey: true },
+    orderBy: { startedAt: 'desc' },
+  })
+}
+
+export const countCompletedUserJourneys = (userId: string) => {
+  return prisma.userJourney.count({
+    where: { userId, status: 'completed' },
+  })
+}
+
 export const advanceUserJourney = (
   userJourneyId: string,
   db: Db = prisma,

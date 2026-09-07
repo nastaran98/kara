@@ -1,5 +1,11 @@
 import { prisma, type Db } from '@/server/db';
 
+export const countCompletedPracticeLogs = (userId: string) => {
+  return prisma.practiceLog.count({
+    where: { userId, status: 'done' },
+  })
+}
+
 export const insertPracticeLog = (
   userId: string,
   userJourneyId: string,

@@ -1,0 +1,56 @@
+{
+  "slug": "atomic-habits",
+  "title": "Atomic Habits — James Clear",
+  "description": "Short lines from the book behind the \"Small Enough to Stick\" journey — worth having on hand long after the fourteen days are over.",
+  "themeTags": ["habits", "identity", "consistency"],
+  "quotes": [
+    {
+      "id": "01",
+      "text": "You do not rise to the level of your goals. You fall to the level of your systems.",
+      "author": "James Clear",
+      "sourceTitle": "Atomic Habits",
+      "sourceType": "book",
+      "themeTags": ["systems", "goals"]
+    },
+    {
+      "id": "02",
+      "text": "Every action you take is a vote for the type of person you wish to become.",
+      "author": "James Clear",
+      "sourceTitle": "Atomic Habits",
+      "sourceType": "book",
+      "themeTags": ["identity"]
+    },
+    {
+      "id": "03",
+      "text": "Habits are the compound interest of self-improvement.",
+      "author": "James Clear",
+      "sourceTitle": "Atomic Habits",
+      "sourceType": "book",
+      "themeTags": ["habits"]
+    },
+    {
+      "id": "04",
+      "text": "You should be far more concerned with your current trajectory than with your current results.",
+      "author": "James Clear",
+      "sourceTitle": "Atomic Habits",
+      "sourceType": "book",
+      "themeTags": ["habits", "growth"]
+    },
+    {
+      "id": "05",
+      "text": "Success is the product of daily habits, not once-in-a-lifetime transformations.",
+      "author": "James Clear",
+      "sourceTitle": "Atomic Habits",
+      "sourceType": "book",
+      "themeTags": ["habits"]
+    },
+    {
+      "id": "06",
+      "text": "The most practical way to change who you are is to change what you do.",
+      "author": "James Clear",
+      "sourceTitle": "Atomic Habits",
+      "sourceType": "book",
+      "themeTags": ["identity", "habits"]
+    }
+  ]
+}

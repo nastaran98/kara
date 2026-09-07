@@ -170,3 +170,49 @@ export type JourneyFile = z.infer<
 export type PracticeFile = z.infer<
   typeof practiceSchema
 >;
+
+// ======================================================
+// QUOTE COLLECTIONS (KARA-46)
+// ======================================================
+
+export const quoteSourceTypeSchema = z.enum([
+  "book",
+  "fiction",
+  "film",
+  "podcast",
+  "talk",
+  "person",
+  "unknown",
+]);
+
+export const quoteFileSchema = z.object({
+  // Local suffix of the quote's stable identifier — the seed script
+  // composes the full id as `${collection.slug}:${id}` and writes it
+  // directly as the Quote row's primary key, upserting by it. That's what
+  // makes re-seeding (or reordering quotes within a collection) never
+  // create duplicates: identity comes from this id, not array position.
+  id: z.string().min(1),
+
+  text: z.string().min(1),
+  author: z.string().min(1).optional(),
+  sourceTitle: z.string().min(1).optional(),
+  sourceType: quoteSourceTypeSchema.default("unknown"),
+  themeTags: z.array(z.string()).default([]),
+  clozeWords: z.array(z.string()).default([]),
+});
+
+export const quoteCollectionFileSchema = z.object({
+  slug: z.string().min(1),
+  title: z.string().min(1),
+  description: z.string().min(1),
+  themeTags: z.array(z.string()).default([]),
+  quotes: z
+    .array(quoteFileSchema)
+    .min(1, "A collection must have at least one quote."),
+});
+
+export type QuoteFile = z.infer<typeof quoteFileSchema>;
+
+export type QuoteCollectionFile = z.infer<
+  typeof quoteCollectionFileSchema
+>;

@@ -1,0 +1,52 @@
+{
+  "slug": "on-courage",
+  "title": "On Courage",
+  "description": "A general, fiction-leaning collection for whenever you need a line to hold onto.",
+  "themeTags": ["courage", "resilience"],
+  "quotes": [
+    {
+      "id": "01",
+      "text": "It does not do to dwell on dreams and forget to live.",
+      "author": "J.K. Rowling",
+      "sourceTitle": "Harry Potter and the Philosopher's Stone",
+      "sourceType": "fiction",
+      "themeTags": ["courage", "presence"]
+    },
+    {
+      "id": "02",
+      "text": "The obstacle is the way.",
+      "author": "Marcus Aurelius",
+      "sourceType": "person",
+      "themeTags": ["resilience"]
+    },
+    {
+      "id": "03",
+      "text": "Not all those who wander are lost.",
+      "author": "J.R.R. Tolkien",
+      "sourceTitle": "The Fellowship of the Ring",
+      "sourceType": "fiction",
+      "themeTags": ["courage"]
+    },
+    {
+      "id": "04",
+      "text": "We suffer more often in imagination than in reality, and it is not the man who has too little, but the man who craves more, that is poor. The wise adapt themselves to circumstances, as water molds itself to the pitcher, and yet a disciplined mind endures every hardship without complaint.",
+      "author": "Seneca",
+      "sourceType": "person",
+      "themeTags": ["resilience", "stoicism"]
+    },
+    {
+      "id": "05",
+      "text": "Courage is not the absence of fear, but the triumph over it.",
+      "author": "Nelson Mandela",
+      "sourceType": "person",
+      "themeTags": ["courage"]
+    },
+    {
+      "id": "06",
+      "text": "She was fierce and strong and broken all at once.",
+      "author": "Unknown",
+      "sourceType": "fiction",
+      "themeTags": ["resilience"]
+    }
+  ]
+}

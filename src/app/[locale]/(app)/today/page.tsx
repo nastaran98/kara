@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getLocale } from "next-intl/server";
 import {
@@ -5,6 +6,7 @@ import {
   Clock3,
   Lightbulb,
   ShieldCheck,
+  Sparkles,
   Sprout,
 } from "lucide-react";
 
@@ -16,6 +18,7 @@ import {
   getToday,
 } from "@kara/domain";
 import { getTodayState } from "@/server/services/getTodayState";
+import { countDueQuoteCards } from "@/server/repositories/quote.repo";
 
 const practiceLabels = {
   ACT: "Acceptance & Commitment Therapy",
@@ -63,6 +66,11 @@ export default async function TodayPage() {
   );
 
   if (today.dayState === "satisfied") {
+    // KARA-43: the only prompt that's allowed to exist. Quotes are a
+    // place, not an obligation — if nothing's due, nothing renders here,
+    // no "all caught up" message either. Its absence is the whole point.
+    const dueQuoteCount = await countDueQuoteCards(userId);
+
     return (
       <main className="flex min-h-[60vh] items-center justify-center px-6">
         <div className="max-w-sm text-center">
@@ -77,6 +85,17 @@ export default async function TodayPage() {
           <p className="mt-2 text-sm leading-6 text-fg-muted">
             You showed up. Your next practice will be here tomorrow.
           </p>
+
+          {dueQuoteCount > 0 && (
+            <Link
+              href={`/${locale}/quotes/review`}
+              className="mt-6 inline-flex items-center gap-2 text-sm text-accent hover:underline"
+            >
+              <Sparkles className="size-4" strokeWidth={1.6} />
+              {dueQuoteCount} quote{dueQuoteCount === 1 ? "" : "s"} ready —
+              about a minute
+            </Link>
+          )}
         </div>
       </main>
     );

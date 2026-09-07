@@ -8,8 +8,10 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../src/generated/prisma/client";
 import {
   journeyFileSchema,
+  quoteCollectionFileSchema,
   type JourneyFile,
   type PracticeFile,
+  type QuoteCollectionFile,
 } from "../content/schema";
 
 config({
@@ -40,6 +42,12 @@ const JOURNEYS_DIRECTORY = path.join(
   process.cwd(),
   "content",
   "journeys",
+);
+
+const QUOTE_COLLECTIONS_DIRECTORY = path.join(
+  process.cwd(),
+  "content",
+  "quote-collections",
 );
 
 async function loadJourneyFiles(): Promise<
@@ -106,6 +114,72 @@ async function loadJourneyFiles(): Promise<
   return journeys;
 }
 
+async function loadQuoteCollectionFiles(): Promise<
+  QuoteCollectionFile[]
+> {
+  const fileNames = (
+    await readdir(QUOTE_COLLECTIONS_DIRECTORY)
+  )
+    .filter((fileName) =>
+      fileName.endsWith(".json"),
+    )
+    .sort();
+
+  const collections: QuoteCollectionFile[] = [];
+
+  for (const fileName of fileNames) {
+    const filePath = path.join(
+      QUOTE_COLLECTIONS_DIRECTORY,
+      fileName,
+    );
+
+    const raw = await readFile(
+      filePath,
+      "utf8",
+    );
+
+    let json: unknown;
+
+    try {
+      json = JSON.parse(raw);
+    } catch (error) {
+      throw new Error(
+        `Invalid JSON in ${fileName}: ${
+          error instanceof Error
+            ? error.message
+            : String(error)
+        }`,
+      );
+    }
+
+    const result =
+      quoteCollectionFileSchema.safeParse(
+        json,
+      );
+
+    if (!result.success) {
+      const details = result.error.issues
+        .map((issue) => {
+          const location =
+            issue.path.length > 0
+              ? issue.path.join(".")
+              : "root";
+
+          return `${location}: ${issue.message}`;
+        })
+        .join("\n");
+
+      throw new Error(
+        `Content validation failed for ${fileName}:\n${details}`,
+      );
+    }
+
+    collections.push(result.data);
+  }
+
+  return collections;
+}
+
 function getPracticeSpecificData(
   practice: PracticeFile,
 ) {
@@ -155,6 +229,94 @@ async function main() {
    */
   const journeys =
     await loadJourneyFiles();
+
+  const quoteCollections =
+    await loadQuoteCollectionFiles();
+
+  // Quote collections seed first: they're independent of journeys and,
+  // unlike the journey loop below (which currently can't run against a
+  // database that already has real PracticeLog rows — a pre-existing
+  // issue, not part of this sprint), this transaction has no reason to
+  // fail on a populated database.
+  await prisma.$transaction(
+    async (tx) => {
+      for (const collectionFile of quoteCollections) {
+        const collection =
+          await tx.collection.upsert({
+            where: {
+              slug: collectionFile.slug,
+            },
+
+            update: {
+              title: collectionFile.title,
+              description:
+                collectionFile.description,
+              themeTags:
+                collectionFile.themeTags,
+            },
+
+            create: {
+              slug: collectionFile.slug,
+              title: collectionFile.title,
+              description:
+                collectionFile.description,
+              themeTags:
+                collectionFile.themeTags,
+            },
+          });
+
+        for (const quoteFile of collectionFile.quotes) {
+          // The composed id (e.g. "atomic-habits:01") is written directly
+          // as the Quote row's primary key and upserted by it — not array
+          // order or file position — so re-running the seed never
+          // creates a duplicate Quote, and never touches the QuoteCards
+          // users already hold against it.
+          const quoteId = `${collectionFile.slug}:${quoteFile.id}`;
+
+          await tx.quote.upsert({
+            where: {
+              id: quoteId,
+            },
+
+            update: {
+              collectionId:
+                collection.id,
+              text: quoteFile.text,
+              author:
+                quoteFile.author ?? null,
+              sourceTitle:
+                quoteFile.sourceTitle ??
+                null,
+              sourceType:
+                quoteFile.sourceType,
+              themeTags:
+                quoteFile.themeTags,
+              clozeWords:
+                quoteFile.clozeWords,
+            },
+
+            create: {
+              id: quoteId,
+              collectionId:
+                collection.id,
+              text: quoteFile.text,
+              author:
+                quoteFile.author ?? null,
+              sourceTitle:
+                quoteFile.sourceTitle ??
+                null,
+              sourceType:
+                quoteFile.sourceType,
+              themeTags:
+                quoteFile.themeTags,
+              clozeWords:
+                quoteFile.clozeWords,
+            },
+          });
+        }
+      }
+    },
+  );
 
   await prisma.$transaction(
     async (tx) => {
@@ -335,7 +497,7 @@ async function main() {
   );
 
   console.log(
-    `Seeded ${journeys.length} journey file(s).`,
+    `Seeded ${journeys.length} journey file(s) and ${quoteCollections.length} quote collection(s).`,
   );
 }
 
