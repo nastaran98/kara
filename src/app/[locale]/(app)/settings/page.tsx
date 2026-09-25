@@ -48,7 +48,7 @@ const Settings = async () => {
               rounded-lg
               border border-border
               bg-surface
-              shadow-[0_18px_50px_rgba(50,46,42,0.07)]
+              shadow-card
             "
           >
             <div className="border-b border-border px-7 py-5">
@@ -68,7 +68,7 @@ const Settings = async () => {
               rounded-lg
               border border-border
               bg-surface
-              shadow-[0_18px_50px_rgba(50,46,42,0.07)]
+              shadow-card
             "
           >
             <div className="border-b border-border px-7 py-5">
@@ -103,7 +103,7 @@ const Settings = async () => {
               bg-surface
               px-7
               py-5
-              shadow-[0_18px_50px_rgba(50,46,42,0.07)]
+              shadow-card
             "
           >
             <div className="flex items-center gap-3">
@@ -131,7 +131,7 @@ const Settings = async () => {
               bg-surface
               px-7
               py-5
-              shadow-[0_18px_50px_rgba(50,46,42,0.07)]
+              shadow-card
             "
           >
             <h2 className="mb-4 text-sm font-medium text-fg">Session</h2>

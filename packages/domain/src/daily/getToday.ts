@@ -5,6 +5,7 @@ export function getToday(state: TodayState) {
     return {
       dayState: "satisfied" as const,
       newPractice: null,
+      completedPractice: state.completedPractice,
     };
   }
 
@@ -12,12 +13,14 @@ export function getToday(state: TodayState) {
     return {
       dayState: "pending" as const,
       newPractice: state.practice,
+      completedPractice: null,
     };
   }
 
   return {
     dayState: "empty" as const,
     newPractice: null,
+    completedPractice: null,
   };
 }
 

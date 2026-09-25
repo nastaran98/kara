@@ -62,7 +62,7 @@ const CollectionDetail = async ({ params }: PageProps) => {
           {collection.quotes.map((quote) => (
             <li
               key={quote.id}
-              className="flex items-start justify-between gap-4 rounded-lg border border-border bg-surface px-5 py-4 shadow-[0_12px_36px_rgba(50,46,42,0.05)]"
+              className="flex items-start justify-between gap-4 rounded-lg border border-border bg-surface px-5 py-4 shadow-card"
             >
               <div className="min-w-0">
                 <p className="font-display text-base leading-6 text-fg">

@@ -6,8 +6,8 @@ export function QuoteBoxDots({ box }: { box: number }) {
       {Array.from({ length: 5 }).map((_, index) => (
         <span
           key={index}
-          className={`size-1.5 rounded-full ${
-            index < box ? "bg-accent" : "bg-border"
+          className={`h-2.5 w-1 rounded-[1px] ${
+            index < box ? "bg-brass" : "bg-border"
           }`}
         />
       ))}

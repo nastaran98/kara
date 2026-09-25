@@ -14,12 +14,10 @@ export default async function VerifyRequestPage() {
         px-7
         py-8
         text-center
-        shadow-[0_18px_50px_rgba(50,46,42,0.07)]
+        shadow-card
       "
     >
-      <div className="mx-auto flex size-11 items-center justify-center rounded-full bg-accent/10">
-        <MailCheck className="size-5 text-accent" strokeWidth={1.6} />
-      </div>
+      <MailCheck className="mx-auto size-8 text-accent" strokeWidth={1.4} />
 
       <h1 className="mt-5 font-display text-2xl font-medium tracking-[-0.02em] text-fg">
         Check your email

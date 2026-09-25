@@ -5,7 +5,7 @@ import { getLocale } from "next-intl/server";
 
 import { getDirection, getFont, routing } from "@/i18n/routing";
 
-import { manrope, newsreader, vazirmatn } from "@/lib/fonts";
+import { manrope, newsreader, vazirmatn, courierPrime } from "@/lib/fonts";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({
@@ -24,7 +24,7 @@ export default async function LocaleLayout({
     <html
       lang={locale}
       dir={getDirection(locale)}
-      className={`${manrope.variable} ${newsreader.variable} ${vazirmatn.variable}`}
+      className={`${manrope.variable} ${newsreader.variable} ${vazirmatn.variable} ${courierPrime.variable}`}
     >
       <body className={getFont(locale)}>
         <NextIntlClientProvider>{children}</NextIntlClientProvider>

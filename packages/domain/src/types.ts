@@ -1,13 +1,24 @@
+export type TodayPractice = {
+  id: string;
+  index: number | null;
+  type: "ACT" | "SIT" | "NOTICE" | "KEEP";
+  title: string | null;
+  body: string | null;
+  minutes: number | null;
+  // Already present on every Practice row fetched by the repository —
+  // this just lets the type describe what the object actually carries,
+  // so the UI's citation line can read it without an `any` escape.
+  sourceTitle: string | null;
+  sourceAuthor: string | null;
+};
+
 export type TodayState = {
   hadActivityToday: boolean;
-  practice: {
-    id: string;
-    index: number | null;
-    type: "ACT" | "SIT" | "NOTICE" | "KEEP";
-    title: string | null;
-    body: string | null;
-    minutes: number | null;
-  } | null;
+  practice: TodayPractice | null;
+  // Today's already-completed practice, when one exists — lets the UI
+  // keep showing the filed card instead of replacing it with a blank
+  // "come back tomorrow" screen the moment the day is satisfied.
+  completedPractice: TodayPractice | null;
 };
 
 export type Phase = {

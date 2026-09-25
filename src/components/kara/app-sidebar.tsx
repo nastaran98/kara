@@ -69,7 +69,7 @@ export function AppSidebar() {
       className="
         border-e
         border-border
-        bg-bg
+        bg-surface
         text-fg
       "
     >
@@ -90,13 +90,13 @@ export function AppSidebar() {
             transition-colors
             duration-pill
             ease-standard
-            hover:bg-surface
+            hover:bg-bg
 
             group-data-[collapsible=icon]:justify-center
             group-data-[collapsible=icon]:px-0
           "
         >
-          {/* Logo */}
+          {/* Logo — a wax-seal stamp, not a rounded app-icon tile. */}
           <div
             className="
               grid
@@ -104,12 +104,16 @@ export function AppSidebar() {
               min-w-9
               shrink-0
               place-items-center
-              rounded-md
-              bg-accent
+              rounded-full
+              border
+              border-brass/40
+              bg-brass
+              font-mono
               text-sm
-              font-semibold
-              text-accent-fg
-              shadow-[0_3px_10px_rgba(172,116,89,0.14)]
+              font-bold
+              tracking-[-0.02em]
+              text-brass-fg
+              shadow-accent-sm
             "
           >
             K
@@ -158,27 +162,17 @@ export function AppSidebar() {
                       className={`
                         h-10
                         rounded-md
-                        px-3
+                        px-2
                         text-sm
-                        font-normal
                         transition-colors
                         duration-pill
                         ease-standard
+                        hover:bg-bg
 
                         ${
                           isActive
-                            ? `
-                              bg-accent/10
-                              font-medium
-                              text-accent
-                              hover:bg-accent/10
-                              hover:text-accent
-                            `
-                            : `
-                              text-fg-muted
-                              hover:bg-surface
-                              hover:text-fg
-                            `
+                            ? "font-semibold text-fg"
+                            : "font-normal text-fg-muted hover:text-fg"
                         }
 
                         group-data-[collapsible=icon]:mx-auto
@@ -187,13 +181,20 @@ export function AppSidebar() {
                         group-data-[collapsible=icon]:px-0
                       `}
                     >
-                      <Icon
-                        className="
-                          size-[18px]
+                      {/* Active items sit in a small stamped block, like an
+                          inked catalog marker — not a row-wide fill. */}
+                      <span
+                        className={`
+                          grid
+                          size-7
                           shrink-0
-                        "
-                        strokeWidth={1.7}
-                      />
+                          place-items-center
+                          rounded-sm
+                          ${isActive ? "bg-accent text-accent-fg" : "text-fg-muted"}
+                        `}
+                      >
+                        <Icon className="size-4.25" strokeWidth={1.7} />
+                      </span>
 
                       <span
                         className="
@@ -228,26 +229,17 @@ export function AppSidebar() {
               className={`
                 h-10
                 rounded-md
-                px-3
+                px-2
                 text-sm
                 transition-colors
                 duration-pill
                 ease-standard
+                hover:bg-bg
 
                 ${
                   pathname === `/${locale}/settings`
-                    ? `
-                      bg-accent/10
-                      font-medium
-                      text-accent
-                      hover:bg-accent/10
-                      hover:text-accent
-                    `
-                    : `
-                      text-fg-muted
-                      hover:bg-surface
-                      hover:text-fg
-                    `
+                    ? "font-semibold text-fg"
+                    : "font-normal text-fg-muted hover:text-fg"
                 }
 
                 group-data-[collapsible=icon]:mx-auto
@@ -256,10 +248,22 @@ export function AppSidebar() {
                 group-data-[collapsible=icon]:px-0
               `}
             >
-              <Settings2
-                className="size-[18px] shrink-0"
-                strokeWidth={1.7}
-              />
+              <span
+                className={`
+                  grid
+                  size-7
+                  shrink-0
+                  place-items-center
+                  rounded-sm
+                  ${
+                    pathname === `/${locale}/settings`
+                      ? "bg-accent text-accent-fg"
+                      : "text-fg-muted"
+                  }
+                `}
+              >
+                <Settings2 className="size-4.25" strokeWidth={1.7} />
+              </span>
 
               <span className="group-data-[collapsible=icon]:hidden">
                 {t("settings")}

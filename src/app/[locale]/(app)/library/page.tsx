@@ -1,21 +1,23 @@
 import { redirect } from 'next/navigation'
 import { getLocale } from 'next-intl/server'
-import { BookOpen, CalendarDays, Clock3, Layers, Sparkles } from 'lucide-react'
+import { CalendarDays, Clock3 } from 'lucide-react'
 
 import { getAllJourneys } from '@/server/repositories/journey.repo'
 import StartJourneyButton from '@/components/startJourneyButton'
 import { auth } from '@/auth'
 
-const kindIcon = {
-  source: BookOpen,
-  theme: Sparkles,
-  pool: Layers,
-} as const
-
 const kindLabel = {
   source: 'From a book',
   theme: 'Theme journey',
   pool: 'Your pool',
+} as const
+
+// Same tag language as a practice's guide tab on Today — a journey's
+// kind is filed the same way a practice's type is.
+const kindTagClasses = {
+  source: 'bg-sit text-sit-fg',
+  theme: 'bg-act text-act-fg',
+  pool: 'bg-notice text-notice-fg',
 } as const
 
 const Library = async () => {
@@ -63,7 +65,7 @@ const Library = async () => {
               bg-surface
               px-6
               text-center
-              shadow-[0_18px_50px_rgba(50,46,42,0.07)]
+              shadow-card
             "
           >
             <p className="text-sm text-fg-muted">
@@ -80,7 +82,6 @@ const Library = async () => {
             "
           >
             {journeys.map((journey) => {
-              const Icon = kindIcon[journey.kind]
               const status = journey.userJourneys?.[0]?.status
 
               return (
@@ -93,9 +94,9 @@ const Library = async () => {
                     rounded-lg
                     border border-border
                     bg-surface
-                    shadow-[0_18px_50px_rgba(50,46,42,0.07)]
+                    shadow-card
                     transition
-                    hover:shadow-[0_22px_60px_rgba(50,46,42,0.1)]
+                    hover:shadow-card-hover
                   "
                 >
                   {/* Header */}
@@ -103,38 +104,33 @@ const Library = async () => {
                     className="
                       flex
                       items-start
-                      gap-4
+                      gap-3
                       border-b
                       border-border
                       px-6
                       py-6
                     "
                   >
-                    <div
-                      className="
-                        flex
-                        size-12
+                    <span
+                      className={`
+                        mt-1
                         shrink-0
-                        items-center
-                        justify-center
-                        rounded-full
-                        bg-accent
-                        text-accent-fg
-                      "
+                        rounded-sm
+                        px-1.5
+                        py-0.5
+                        font-mono
+                        text-[0.625rem]
+                        font-bold
+                        tracking-[0.04em]
+                        uppercase
+                        ${kindTagClasses[journey.kind]}
+                      `}
                     >
-                      <Icon className="size-5" strokeWidth={1.6} />
-                    </div>
+                      {journey.kind}
+                    </span>
 
                     <div className="min-w-0">
-                      <p
-                        className="
-                          text-xs
-                          font-medium
-                          uppercase
-                          tracking-[0.08em]
-                          text-accent
-                        "
-                      >
+                      <p className="text-xs text-fg-muted">
                         {kindLabel[journey.kind]}
                       </p>
 
@@ -163,13 +159,10 @@ const Library = async () => {
                     )}
 
                     {journey.sourceTitle && (
-                      <p className="mt-3 text-xs text-fg-muted">
-                        Drawn from{' '}
-                        <span className="text-fg">
-                          {journey.sourceTitle}
-                        </span>
+                      <p className="mt-3 font-mono text-xs text-fg-muted">
+                        — {journey.sourceTitle}
                         {journey.sourceAuthor
-                          ? ` — ${journey.sourceAuthor}`
+                          ? `, ${journey.sourceAuthor}`
                           : ''}
                       </p>
                     )}
@@ -180,14 +173,14 @@ const Library = async () => {
                           className="size-4"
                           strokeWidth={1.6}
                         />
-                        <span className="text-xs">
+                        <span className="font-mono text-xs">
                           {journey.totalDays} days
                         </span>
                       </div>
 
                       <div className="flex items-center gap-2">
                         <Clock3 className="size-4" strokeWidth={1.6} />
-                        <span className="text-xs">
+                        <span className="font-mono text-xs">
                           ≈ {journey.dailyMinutes} min/day
                         </span>
                       </div>

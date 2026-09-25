@@ -16,6 +16,13 @@
     "continue": "ادامه"
   },
   "Practice": {
-    "markAsDone": "انجام شد"
+    "markAsDone": "انجام شد",
+    "completing": "در حال ثبت…",
+    "tapToBegin": "برای شروع لمس کنید",
+    "reveal": "نمایش تمرین امروز",
+    "showCover": "نمایش روی جلد",
+    "filed": "امروز انجام شد",
+    "notToday": "امروز نه",
+    "retryFile": "ثبت نشد؛ دوباره تلاش کنید"
   }
 }

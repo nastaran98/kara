@@ -16,6 +16,13 @@
     "continue": "Continue"
   },
   "Practice": {
-    "markAsDone": "Mark as Done"
+    "markAsDone": "Mark as Done",
+    "completing": "Marking done…",
+    "tapToBegin": "Tap to begin",
+    "reveal": "Reveal today's practice",
+    "showCover": "Show cover",
+    "filed": "Filed for today",
+    "notToday": "Not today",
+    "retryFile": "Couldn't file — tap to retry"
   }
 }

@@ -32,7 +32,7 @@ export default async function LoginPage({
         bg-surface
         px-7
         py-8
-        shadow-[0_18px_50px_rgba(50,46,42,0.07)]
+        shadow-card
       "
     >
       <h1 className="font-display text-2xl font-medium tracking-[-0.02em] text-fg">

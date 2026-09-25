@@ -141,7 +141,7 @@ const Quotes = async ({ searchParams }: PageProps) => {
                 className="
                   flex min-h-[30vh] items-center justify-center rounded-lg
                   border border-border bg-surface px-6 text-center
-                  shadow-[0_18px_50px_rgba(50,46,42,0.07)]
+                  shadow-card
                 "
               >
                 <p className="text-sm text-fg-muted">
@@ -162,8 +162,8 @@ const Quotes = async ({ searchParams }: PageProps) => {
                         href={`/${locale}/quotes/${card.id}`}
                         className="
                           block rounded-lg border border-border bg-surface
-                          px-5 py-4 shadow-[0_12px_36px_rgba(50,46,42,0.05)]
-                          transition hover:shadow-[0_16px_44px_rgba(50,46,42,0.08)]
+                          px-5 py-4 shadow-card
+                          transition hover:shadow-card-hover
                         "
                       >
                         <div className="flex items-start justify-between gap-4">

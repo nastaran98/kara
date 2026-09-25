@@ -18,7 +18,7 @@ export default function AuthLayout({
               text-base
               font-semibold
               text-accent-fg
-              shadow-[0_3px_10px_rgba(172,116,89,0.14)]
+              shadow-accent-sm
             "
           >
             K

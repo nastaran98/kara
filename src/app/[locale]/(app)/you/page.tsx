@@ -1,13 +1,7 @@
 import { redirect } from 'next/navigation'
 import { getLocale } from 'next-intl/server'
 import Link from 'next/link'
-import {
-  ArrowRight,
-  BookMarked,
-  CheckCircle2,
-  Layers,
-  Sprout,
-} from 'lucide-react'
+import { ArrowRight, Sprout } from 'lucide-react'
 
 import { auth } from '@/auth'
 import { getProfileState } from '@/server/services/getProfileState'
@@ -29,9 +23,8 @@ const You = async () => {
   }
 
   const userId = session.user.id
-  const { user, activeJourney, journeys, stats } = await getProfileState(
-    userId
-  )
+  const { user, activeJourney, journeys, stats, streakMilestoneReachedToday } =
+    await getProfileState(userId)
 
   const initials =
     (user?.name ?? user?.email ?? 'K')
@@ -57,7 +50,7 @@ const You = async () => {
             bg-surface
             px-7
             py-7
-            shadow-[0_18px_50px_rgba(50,46,42,0.07)]
+            shadow-card
             sm:flex-row
             sm:items-center
             sm:justify-between
@@ -73,10 +66,13 @@ const You = async () => {
                 items-center
                 justify-center
                 rounded-full
-                bg-accent
+                border
+                border-brass/40
+                bg-brass
+                font-mono
                 text-lg
-                font-medium
-                text-accent-fg
+                font-bold
+                text-brass-fg
               "
             >
               {initials}
@@ -107,71 +103,66 @@ const You = async () => {
           </div>
         </section>
 
-        {/* Stats */}
-        <section
-          className="
-            mt-5
-            grid
-            grid-cols-1
-            gap-5
-            sm:grid-cols-3
-          "
-        >
-          {[
-            {
-              icon: CheckCircle2,
-              label: 'Practices done',
-              value: stats.practicesCompleted,
-            },
-            {
-              icon: Layers,
-              label: 'Journeys completed',
-              value: stats.journeysCompleted,
-            },
-            {
-              icon: BookMarked,
-              label: 'Learnings saved',
-              value: stats.learningsSaved,
-            },
-          ].map(({ icon: Icon, label, value }) => (
-            <div
-              key={label}
-              className="
-                flex
-                items-center
-                gap-4
-                rounded-lg
-                border border-border
-                bg-surface
-                px-6
-                py-6
-                shadow-[0_18px_50px_rgba(50,46,42,0.07)]
-              "
-            >
-              <div
-                className="
-                  flex
-                  size-11
-                  shrink-0
-                  items-center
-                  justify-center
-                  rounded-full
-                  bg-accent/10
-                "
-              >
-                <Icon className="size-5 text-accent" strokeWidth={1.6} />
-              </div>
+        {/* Stats — a ledger, not a grid of identical tiles: one card,
+            one row per figure, numbers set in the citation mono. */}
+        <h2 className="mt-8 text-sm font-medium text-fg">Your record</h2>
 
-              <div className="min-w-0">
-                <p className="font-display text-2xl font-medium text-fg">
-                  {value}
-                </p>
-                <p className="mt-0.5 truncate text-xs text-fg-muted">
-                  {label}
+        <section className="mt-3 overflow-hidden rounded-lg border border-border bg-surface shadow-card">
+          {(
+            [
+              { key: 'streak', label: 'Day streak', value: stats.streak, brass: true },
+              {
+                key: 'practices',
+                label: 'Practices done',
+                value: stats.practicesCompleted,
+                brass: false,
+              },
+              {
+                key: 'journeys',
+                label: 'Journeys completed',
+                value: stats.journeysCompleted,
+                brass: false,
+              },
+              {
+                key: 'learnings',
+                label: 'Learnings saved',
+                value: stats.learningsSaved,
+                brass: false,
+              },
+            ] as const
+          ).map((row, index, rows) => {
+            const isCelebrating = row.brass && streakMilestoneReachedToday
+
+            return (
+              <div
+                key={row.key}
+                className={`
+                  flex
+                  items-center
+                  justify-between
+                  gap-4
+                  px-7
+                  py-4
+                  md:px-9
+                  ${index < rows.length - 1 ? 'border-b border-border' : ''}
+                `}
+              >
+                <p className="text-sm text-fg">{row.label}</p>
+
+                <p
+                  className={`
+                    font-mono
+                    text-lg
+                    font-bold
+                    ${row.brass ? 'text-brass' : 'text-fg'}
+                    ${isCelebrating ? 'animate-streak-milestone' : ''}
+                  `}
+                >
+                  {row.value}
                 </p>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </section>
 
         {/* Current journey */}
@@ -189,7 +180,7 @@ const You = async () => {
               bg-surface
               px-7
               py-6
-              shadow-[0_18px_50px_rgba(50,46,42,0.07)]
+              shadow-card
               md:px-9
             "
           >
@@ -257,7 +248,7 @@ const You = async () => {
                 text-sm
                 font-medium
                 text-accent-fg
-                shadow-[0_5px_14px_rgba(172,116,89,0.16)]
+                shadow-accent
                 hover:bg-accent/90
               "
             >
@@ -284,7 +275,7 @@ const You = async () => {
                 bg-surface
                 px-6
                 text-center
-                shadow-[0_18px_50px_rgba(50,46,42,0.07)]
+                shadow-card
               "
             >
               <p className="text-sm text-fg-muted">
@@ -313,7 +304,7 @@ const You = async () => {
                     bg-surface
                     px-6
                     py-4
-                    shadow-[0_18px_50px_rgba(50,46,42,0.07)]
+                    shadow-card
                   "
                 >
                   <div className="min-w-0">

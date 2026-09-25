@@ -22,25 +22,34 @@
 
   /* ─────────────────────────────
      COLORS — neutrals
-     Cool, slightly indigo-leaning neutral to sit under
-     the new accent family below.
+     The slip-box world: a kraft-paper desk (bg) holding a lifted
+     index card (surface), graphite ink, and a faded rule line.
+     Warm throughout — never cool gray, never true black or white.
   ───────────────────────────── */
 
   /* --color-*: initial; */
 
-  --color-bg: light-dark(#f5f6fa, #101018);
+  --color-bg: light-dark(#ede6d5, #17140f);
 
-  --color-surface: light-dark(#ffffff, #191a24);
+  --color-surface: light-dark(#f8f3e6, #221e17);
 
-  --color-fg: light-dark(#20222b, #edeef5);
+  --color-fg: light-dark(#2b2a24, #efe8d8);
 
-  --color-fg-muted: light-dark(#6d7080, #9a9cae);
+  --color-fg-muted: light-dark(#6e6656, #a79a80);
 
-  --color-border: light-dark(#dcdee6, #2b2c3a);
+  --color-border: light-dark(#d9ceb0, #3a3527);
 
-  --color-accent: light-dark(#5b5fa3, #8b8fd6);
+  /* Stamp-blue — the structural accent, mixed like faded ledger-stamp
+     ink rather than a flat UI brand color. */
+  --color-accent: light-dark(#4a5a8c, #8c9ad6);
 
-  --color-accent-fg: light-dark(#ffffff, #101018);
+  --color-accent-fg: light-dark(#ffffff, #14131c);
+
+  /* Brass — the accomplishment color: streaks, milestones, "filed"
+     confirmations. Never used for anything destructive or alarmed. */
+  --color-brass: light-dark(#a9762e, #d9a441);
+
+  --color-brass-fg: light-dark(#2b1d08, #1b1408);
 
   /* ─────────────────────────────
      COLORS — practice types
@@ -80,14 +89,42 @@
 
   /* ─────────────────────────────
      RADII
+     Index-card corners: crisp, not soft. This is the single biggest
+     lever away from the generic soft-squircle SaaS-card look.
   ───────────────────────────── */
 
   --radius-*: initial;
 
-  --radius-sm: 0.5rem;
-  --radius-md: 1rem;
-  --radius-lg: 2.5rem;
+  --radius-sm: 0.1875rem;
+  --radius-md: 0.25rem;
+  --radius-lg: 0.375rem;
+  --radius-xl: 0.5rem;
+  --radius-4xl: 999px;
 
+  /* ─────────────────────────────
+     TYPOGRAPHY — mono
+     Citations, dates, day counts, and other card metadata read in a
+     genuine typewriter-revival face — measurement, not a "technical"
+     costume.
+  ───────────────────────────── */
+
+  --font-mono: var(--font-courier-prime);
+
+  /* ─────────────────────────────
+     SHADOWS
+     A card resting on a desk, not floating in a soft cloud: tighter,
+     warm-tinted (ink-brown, never neutral black), with a close contact
+     shadow plus a shallow lift.
+  ───────────────────────────── */
+
+  --shadow-*: initial;
+
+  --shadow-card: 0 1px 2px rgba(43, 38, 26, 0.10), 0 8px 20px -6px rgba(43, 38, 26, 0.16);
+  --shadow-card-hover: 0 2px 4px rgba(43, 38, 26, 0.12), 0 14px 32px -6px rgba(43, 38, 26, 0.20);
+
+  /* Tinted from stamp-blue, for the accent-filled primary action. */
+  --shadow-accent: 0 5px 14px rgba(74, 90, 140, 0.22);
+  --shadow-accent-sm: 0 3px 10px rgba(74, 90, 140, 0.18);
 
   /* ─────────────────────────────
      MOTION
@@ -96,6 +133,7 @@
   --duration-completion: 600ms;
   --duration-pill: 200ms;
   --duration-ring: 2000ms;
+  --duration-flip: 700ms;
 
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --ease-out: cubic-bezier(0, 0, 0.2, 1);
@@ -170,8 +208,146 @@ body {
   min-height: 100vh;
   background: var(--color-bg);
   color: var(--color-fg);
+  caret-color: var(--color-accent);
+  scrollbar-color: var(--color-fg-muted) transparent;
 }
 
 input {
-  border-radius: 10px;
+  border-radius: var(--radius-md);
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-accent-fg);
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-fg-muted);
+  border-radius: var(--radius-4xl);
+  border: 3px solid var(--color-bg);
+}
+
+/* Dates, counts, and other measured figures set in the citation mono
+   should never wobble column to column. */
+.font-mono {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─────────────────────────────
+   MOTION — one-off flourishes
+───────────────────────────── */
+
+/* The streak tile's milestone moment (You page) — a quiet pop-in, not
+   confetti. First real consumer of --duration-completion. */
+@keyframes streak-milestone {
+  from {
+    transform: scale(0.94);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-streak-milestone {
+  animation: streak-milestone var(--duration-completion) var(--ease-out);
+}
+
+/* The stamp that lands when a practice is filed — a real stamp's
+   overshoot-then-settle, not a fade. */
+@keyframes card-stamp {
+  0% {
+    transform: scale(1.6) rotate(-8deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(0.94) rotate(-8deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(-8deg);
+    opacity: 1;
+  }
+}
+
+.animate-card-stamp {
+  animation: card-stamp var(--duration-completion) var(--ease-standard);
+}
+
+/* The card's own little jump when it's filed — applied to the scene
+   wrapper (a 2D wobble), never the flip-card itself (which owns the
+   3D rotateY transition) so the two never fight over `transform`. */
+@keyframes card-celebrate {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  15% {
+    transform: scale(1.04) rotate(-2deg);
+  }
+  30% {
+    transform: scale(0.98) rotate(2deg);
+  }
+  45% {
+    transform: scale(1.03) rotate(-1.5deg);
+  }
+  60% {
+    transform: scale(0.99) rotate(1deg);
+  }
+  75% {
+    transform: scale(1.015) rotate(-0.5deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.animate-card-celebrate {
+  animation: card-celebrate 900ms var(--ease-standard);
+}
+
+/* ─────────────────────────────
+   FLIP CARD — today's practice, turned like an index card
+───────────────────────────── */
+
+.flip-scene {
+  perspective: 1800px;
+}
+
+.flip-card {
+  display: grid;
+  transform-style: preserve-3d;
+  transition: transform var(--duration-flip) var(--ease-standard);
+}
+
+.flip-card[data-flipped="true"] {
+  transform: rotateY(180deg);
+}
+
+.flip-face {
+  grid-area: 1 / 1;
+  backface-visibility: hidden;
+}
+
+.flip-face-back {
+  transform: rotateY(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flip-card {
+    transition: none;
+  }
+
+  .animate-card-celebrate {
+    animation: none;
+  }
 }

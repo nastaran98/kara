@@ -2,6 +2,7 @@ import { findActiveUserJourney } from '@/server/repositories/userJourney.repo';
 import { getPhasesForJourney } from '@/server/repositories/journey.repo';
 import { getPracticeForJourneyIndex } from '@/server/repositories/practice.repo';
 import { getDayActivity } from '@/server/repositories/dayActivity.repo';
+import { getTodayCompletedPracticeLog } from '@/server/repositories/practiceLog.repo';
 
 // Composes the "Today" screen's state out of several independent reads.
 // This orchestration — which entities to fetch and how to shape them
@@ -14,13 +15,14 @@ export const getTodayState = async (userId: string) => {
     return null;
   }
 
-  const [phases, practice, dayActivity] = await Promise.all([
+  const [phases, practice, dayActivity, completedLog] = await Promise.all([
     getPhasesForJourney(activeJourney.journeyId),
     getPracticeForJourneyIndex(
       activeJourney.journeyId,
       activeJourney.currentIndex,
     ),
     getDayActivity(userId, new Date()),
+    getTodayCompletedPracticeLog(userId),
   ]);
 
   return {
@@ -30,5 +32,6 @@ export const getTodayState = async (userId: string) => {
     journey: activeJourney.journey,
     phases,
     practice,
+    completedPractice: completedLog?.practice ?? null,
   };
 };

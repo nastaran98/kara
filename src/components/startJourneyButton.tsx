@@ -55,7 +55,7 @@ const StartJourneyButton = ({ userId, journeyId, status }: Props) => {
           text-sm
           font-medium
           text-accent-fg
-          shadow-[0_5px_14px_rgba(172,116,89,0.16)]
+          shadow-accent
           hover:bg-accent/90
         "
       >
@@ -81,7 +81,7 @@ const StartJourneyButton = ({ userId, journeyId, status }: Props) => {
           text-sm
           font-medium
           text-accent-fg
-          shadow-[0_5px_14px_rgba(172,116,89,0.16)]
+          shadow-accent
           transition
           hover:bg-accent/90
           disabled:opacity-60

@@ -43,7 +43,7 @@ const QuoteDetail = async ({ params }: PageProps) => {
           All quotes
         </Link>
 
-        <div className="rounded-lg border border-border bg-surface p-8 shadow-[0_18px_50px_rgba(50,46,42,0.07)]">
+        <div className="rounded-lg border border-border bg-surface p-8 shadow-card">
           <div className="flex items-start justify-between gap-4">
             <QuoteBoxDots box={card.box} />
             {ready && (

@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { redirect } from "next/navigation"
 import { getLocale } from "next-intl/server"
-import { ArrowLeft, Layers } from "lucide-react"
+import { ArrowLeft } from "lucide-react"
 
 import { auth } from "@/auth"
 import { getAllCollections } from "@/server/repositories/collection.repo"
@@ -37,7 +37,7 @@ const Collections = async () => {
         </header>
 
         {collections.length === 0 ? (
-          <div className="flex min-h-[30vh] items-center justify-center rounded-lg border border-border bg-surface px-6 text-center shadow-[0_18px_50px_rgba(50,46,42,0.07)]">
+          <div className="flex min-h-[30vh] items-center justify-center rounded-lg border border-border bg-surface px-6 text-center shadow-card">
             <p className="text-sm text-fg-muted">
               No collections available yet.
             </p>
@@ -48,22 +48,17 @@ const Collections = async () => {
               <Link
                 key={collection.id}
                 href={`/${locale}/quotes/collections/${collection.slug}`}
-                className="flex flex-col rounded-lg border border-border bg-surface p-6 shadow-[0_18px_50px_rgba(50,46,42,0.07)] transition hover:shadow-[0_22px_60px_rgba(50,46,42,0.1)]"
+                className="flex flex-col rounded-lg border border-border bg-surface p-6 shadow-card transition hover:shadow-card-hover"
               >
-                <div className="flex items-center gap-3">
-                  <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent">
-                    <Layers className="size-4" strokeWidth={1.6} />
-                  </div>
-                  <h2 className="font-display text-lg font-medium tracking-[-0.02em] text-fg">
-                    {collection.title}
-                  </h2>
-                </div>
+                <h2 className="font-display text-lg font-medium tracking-[-0.02em] text-fg">
+                  {collection.title}
+                </h2>
 
                 <p className="mt-4 line-clamp-3 text-sm leading-6 text-fg-muted">
                   {collection.description}
                 </p>
 
-                <p className="mt-4 text-xs text-fg-muted">
+                <p className="mt-4 font-mono text-xs text-fg-muted">
                   {collection.quotes.length} quote
                   {collection.quotes.length === 1 ? "" : "s"}
                 </p>
